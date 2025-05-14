@@ -20,7 +20,7 @@ class MainView(QMainWindow):
     def setupUI(self):
         global UI_set
 
-        UI_set = QtUiTools.QUiLoader().load(resource_path("analysis_tool_main.ui")) # ui파일 오픈
+        UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_main.ui")) # ui파일 오픈
 
         UI_set.go_chart.clicked.connect(self.goto_chart) #chart 분석창으로의 이벤트 연결
 
