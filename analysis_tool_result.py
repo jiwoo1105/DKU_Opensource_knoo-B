@@ -9,7 +9,8 @@ from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, Q
 
 class MainView(QMainWindow):
 
-    result_book,result_movie = NULL
+    result_book = None
+    result_movie = None
  
     def __init__(self):
         super().__init__()
@@ -33,14 +34,14 @@ class MainView(QMainWindow):
     #최종 추천 결과를 보여주는 함수
     def show_result(self):
 
-        if(self.result_book != NULL):
+        if(self.result_book != None):
             UI_set.recommend_book.setText(self.result_book)
-        elif(self.result_book == NULL):
+        elif(self.result_book == None):
             text = "추천되는 책이 없습니다"
             UI_set.recommend_book.setText(text)
-        if(self.result_movie != NULL):
+        if(self.result_movie != None):
             UI_set.recommend_movie.setText(self.result_movie)
-        elif(self.result_movie == NULL):
+        elif(self.result_movie == None):
             text = "추천되는 책이 없습니다"
             UI_set.recommend_book.setText(text)
 

@@ -12,8 +12,8 @@ class MainView(QMainWindow):
 
     #감정 분석을 위한 변수들
     user_emotion_result = []
-    myvalue = analysis_tool_result.value
-    myText = analysis_tool_result.Text
+    #myvalue = analysis_tool_result.value
+    #myText = analysis_tool_result.Text
 
     def __init__(self):
         super().__init__()
@@ -25,7 +25,7 @@ class MainView(QMainWindow):
 
         UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_chart.ui")) # ui파일 오픈
 
-        UI_set.go_chart.clicked.connect(self.goto_result) #최종 결과창으로의 이벤트 연결
+        UI_set.goto_result.clicked.connect(self.goto_result) #최종 결과창으로의 이벤트 연결
 
         self.setCentralWidget(UI_set)
         self.setWindowTitle("감정에 대한 분석 차트")
@@ -44,6 +44,11 @@ class MainView(QMainWindow):
     #결과 창을 이동
     def goto_result(self):
         self.S = analysis_tool_result.MainView()
+
+    #유저의 감정 결과 받아오는 함수
+#   def getUserEmotionResult():
+#      user_emotion_result = self.user_emotion_result
+#      return user_emotion_result
 
 
 

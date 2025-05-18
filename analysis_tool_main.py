@@ -10,7 +10,8 @@ import analysis_tool_chart
 
 class MainView(QMainWindow):
 
-    value, Text = NULL
+    value = None
+    Text = None
 
     def __init__(self):
         super().__init__()
@@ -39,6 +40,17 @@ class MainView(QMainWindow):
     def goto_chart(self):
             self.myvalue()
             self.S = analysis_tool_chart.MainView()
+    
+#    def getvalue():
+#         value = self.value
+#         return value
+    
+#    def getText():
+#         Text = self.Text
+#         return Text
+    
+
+    
 
 
 
