@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>518</width>
-    <height>360</height>
+    <height>366</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -19,25 +25,45 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLabel" name="Main_Title">
-        <property name="font">
-         <font>
-          <family>한컴 고딕</family>
-          <pointsize>14</pointsize>
-          <weight>9</weight>
-          <italic>false</italic>
-          <bold>false</bold>
-         </font>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>100</height>
+         </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(85, 170, 255);
-font: 75 14pt &quot;한컴 고딕&quot;;
-background-color: rgb(255, 255, 255);</string>
+         <string notr="true">font: 57 15pt &quot;G마켓 산스 TTF Medium&quot;;
+color: #2E2E2E;
+
+border-style: solid;
+border-width: 2px;
+border-color: #A3C1DA;
+border-radius: 6px;
+background-color: #F0F8FF;
+
+
+
+
+</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
         <property name="text">
-         <string>책 및 영화 추천 프로그램</string>
+         <string>책 및 영화 추천 프로그램
+knoo-B</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -47,14 +73,23 @@ background-color: rgb(255, 255, 255);</string>
       <item>
        <layout class="QHBoxLayout" name="check_btn">
         <property name="spacing">
-         <number>6</number>
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
         </property>
         <item>
          <widget class="QPushButton" name="Analysis_tool">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>200</width>
-            <height>100</height>
+            <height>120</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -65,18 +100,24 @@ background-color: rgb(255, 255, 255);</string>
           </property>
           <property name="font">
            <font>
-            <family>한컴 고딕</family>
-            <pointsize>10</pointsize>
+            <family>G마켓 산스 TTF Medium</family>
+            <pointsize>11</pointsize>
             <weight>50</weight>
+            <italic>false</italic>
             <bold>false</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-style: solid;
+           <string notr="true">font: 11pt &quot;G마켓 산스 TTF Medium&quot;;
+color: #333333;
+
+border-style: solid;
 border-width: 2px;
-border-color: #FA8072;
-background-color: rgb(148, 214, 255);
-border-radius: 3px</string>
+border-color: #F5A9B8; 
+border-radius: 6px;
+
+background-color: #FFE6F0; /* 연한 파스텔 핑크 */
+</string>
           </property>
           <property name="text">
            <string>감정 분석 및 추천</string>
@@ -85,10 +126,16 @@ border-radius: 3px</string>
         </item>
         <item>
          <widget class="QPushButton" name="Find_info">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>200</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>200</width>
-            <height>100</height>
+            <height>120</height>
            </size>
           </property>
           <property name="maximumSize">
@@ -99,17 +146,25 @@ border-radius: 3px</string>
           </property>
           <property name="font">
            <font>
-            <family>한컴 고딕</family>
-            <pointsize>10</pointsize>
-            <weight>50</weight>
+            <family>G마켓 산스 TTF Medium</family>
+            <pointsize>11</pointsize>
+            <weight>7</weight>
+            <italic>false</italic>
             <bold>false</bold>
             <underline>false</underline>
             <strikeout>false</strikeout>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-color: #FA8072;
-background-color: rgb(170, 170, 255);
+           <string notr="true">font: 57 11pt &quot;G마켓 산스 TTF Medium&quot;;
+color: #333333;
+
+border-style: solid;
+border-width: 2px;
+border-color: #66CDAA;
+border-radius: 6px;
+background-color: #E0FFF4;
+
 </string>
           </property>
           <property name="text">
@@ -123,17 +178,17 @@ background-color: rgb(170, 170, 255);
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>518</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
