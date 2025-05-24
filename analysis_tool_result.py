@@ -1,6 +1,6 @@
 import sys
-
 import os
+import DB_requset as DB
 
 from PySide2 import QtUiTools, QtGui
 
