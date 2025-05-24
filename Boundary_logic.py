@@ -1,7 +1,12 @@
 #감정들의 매핑 자료구조 -> 딕셔너리 등으로 구현/ value 부분은 list로 할당
+#admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment,
+#disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride,
+#realization, relief, remorse, sadness, surprise, neutral
 all_emo_map = {
-    'admiration' : []
-
+    'admiration' : [], 'admiration' : [], 'anger' : [], 'annoyance' : [], 'approval' : [] , 'caring' : [], 'confusion' : [], 'curiosity' : [], 'desire' : [],
+    'disappointment' : [], 'disapproval' : [], 'disgust' : [], 'embarrassment' : [], 'excitement': [], 'fear' : [], 'gratitude' : [], 'grief' : [], 
+    'joy' : [], 'love' : [], 'nervousness' : [], 'optimism' : [], 'pride' : [], 'realization' : [], 'relief' : [], 'remorse': [], 'sadness' : [], 
+    'surprise' : [], 'neutral' : []
 }
 
 #user의 감정 분석 결과를 받아와서 처리하는 함수
