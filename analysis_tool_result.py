@@ -1,20 +1,21 @@
 import sys
 import os
-import DB_requset as DB
-
+import DB_request as DB
 from PySide2 import QtUiTools, QtGui
-
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
 
 
 class MainView(QMainWindow):
+    #책과 관련된 정리된 데이터
+    global data_after_logic_book
 
-    result_book = None
-    result_movie = None
+    result_book = []
+    result_movie = []
  
-    def __init__(self):
+    def __init__(self, data_after_logic = None):
         super().__init__()
-
+        #chart로부터 넘겨 받은 정제된 data
+        self.data_after_logic_book = data_after_logic
         self.setupUI()
         
     def setupUI(self):
@@ -22,7 +23,6 @@ class MainView(QMainWindow):
 
         UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_result.ui")) # ui파일 오픈
 
-        #UI_set.go_chart.clicked.connect(self.goto_chart) #chart 분석창으로의 이벤트 연결
         #결과 화면을 띄우기 위해 함수 호출
         self.show_result()
 
@@ -33,6 +33,7 @@ class MainView(QMainWindow):
 
     #최종 추천 결과를 보여주는 함수
     def show_result(self):
+        self.result_book = self.get_recom_book()
 
         if(self.result_book != None):
             UI_set.recommend_book.setText(self.result_book)
@@ -49,6 +50,20 @@ class MainView(QMainWindow):
     def goto_first(self):
         #self.S = analysis_tool_chart.MainView()
         return 0
+    
+    def get_recom_book(self):
+        db = DB.book_db()
+        data = self.data_after_logic_book
+        result = db.lookup_all(data)
+
+        return result
+    
+    def get_recom_movie(self):
+        result = []
+
+        return result
+
+        
 
 
 

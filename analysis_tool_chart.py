@@ -1,22 +1,21 @@
 import sys
-
 import os
-
 from PySide2 import QtUiTools, QtGui
-
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
-
 import analysis_tool_result
+import Boundary_logic as logic
+from PySide2.QtWebEngineWidgets import QWebEngineView
 
 class MainView(QMainWindow):
+    global user_emotion_result
+    #logic을 통해 잘 정제된 데이터 -> result로 넘겨서 추천 결과 출력 
+    global data_after_logic_book
+    global plot_result
 
-    #감정 분석을 위한 변수들
-    user_emotion_result = []
-    #myvalue = analysis_tool_result.value
-    #myText = analysis_tool_result.Text
-
-    def __init__(self):
+    def __init__(self,user_emotion_result = None):
         super().__init__()
+        #사용자 감정 분석된 결과 넘겨받기
+        self.user_emotion_result = user_emotion_result
 
         self.setupUI()
         
@@ -32,24 +31,25 @@ class MainView(QMainWindow):
         self.resize(510, 350)
         self.show()
 
-    #이 함수에서 goemotions의 감정 분석처리 로직을 수행하고 결과를 받을 예졍 -> 결과는 mylist에 저장
-    def call_goemotions_kor(self):
-        return self.user_emotion_result
+    #logic을 이용해서 감정 분석 결과를 후처리
+    def do_emo_logic(self):
+        result = []
+        self.data_after_logic_book
     
+    #차트 분석 결과 출력 함수
+    def show_result(self):
+        UI_set.Show_user_emotion.setText(self.user_emotion_result)
+        UI_set.Show_result_by_chart.setHtml(plot_result)
+
     #mylist에 저장된 값을 이용해서 chart에 plotly를 이용해 그릴 예정
     #plotly와 관련된 연결부분 함수 필요 ex) def make_chart(self): ~~
-    def show_chart_for_user(self):
-         return 0
+    #결과물은 plot_result라는 전역변수 저장후 show_result함수로 출력
+    def get_plot_result(self):
+         self.plot_result = 0
 
-    #결과 창을 이동
+    #결과 창으로 이동
     def goto_result(self):
-        self.S = analysis_tool_result.MainView()
-
-    #유저의 감정 결과 받아오는 함수
-#   def getUserEmotionResult():
-#      user_emotion_result = self.user_emotion_result
-#      return user_emotion_result
-
+        self.S = analysis_tool_result.MainView(self.data_after_logic)
 
 
 # 파일 경로

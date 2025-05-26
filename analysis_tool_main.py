@@ -1,17 +1,14 @@
 import sys
-
 import os
-
 from PySide2 import QtUiTools, QtGui
-
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
-
 import analysis_tool_chart
+from analysis import emotion_analysis
 
 class MainView(QMainWindow):
 
-    value = None
-    Text = None
+    global genre
+    global user_emo
 
     def __init__(self):
         super().__init__()
@@ -31,28 +28,26 @@ class MainView(QMainWindow):
         self.show()
 
     #사용자가 입력한 text와 선택한 장르에 대해서 값을 저장
-    def myvalue(self):
-            #장르 선택은 추후에 삭제 가능성 있음
-            #self.value = UI_set.select_genre_by_combo.currentText()
-            self.Text = UI_set.user_emotion_input.toPlainText()
+    def do_analy(self):
+        #장르 선택은 추후에 삭제 가능성 있음
+        #self.value = UI_set.select_genre_by_combo.currentText()
+        input = UI_set.user_emotion_input.toPlainText()
+        self.user_emo = emotion_analysis.text_analy(input)
+
     
     #차트 분석 창으로 이동
     def goto_chart(self):
-            self.myvalue()
-            self.S = analysis_tool_chart.MainView()
-    
-#    def getvalue():
-#         value = self.value
-#         return value
-    
-#    def getText():
-#         Text = self.Text
-#         return Text
-    
+        #감정 분석 진행
+        self.do_analy()
+        #새 창 열기
+        self.S = analysis_tool_chart.MainView(self.user_emo)
 
-    
-
-
+    #감정 분석 결과 불러오기
+    def get_user_emo(self):
+        return self.user_emo
+    #장르 선택 값 불러오기
+    def get_genre(self):
+        return self.genre
 
 # 파일 경로
 
