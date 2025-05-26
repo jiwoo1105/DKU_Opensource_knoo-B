@@ -3,7 +3,8 @@ import Boundary_logic as logic
 import json
 from datasets import load_dataset
 import pandas as pd
-from analysis import emotion_analysis
+import numpy as np
+#from analysis import emotion_analysis
 
 #책 관련 DB 조회 클래스
 #클래스 선언과 초기화후 사용 권장
@@ -26,14 +27,26 @@ class book_db:
         self.data = pd.DataFrame(dataset['train'])
         self.meta_data = pd.DataFrame(meta)
 
+    #구체성 값 계산 함수
+    def normalized_tag_specificity(self,df):
+        total_books = df['item_id'].nunique()
+        tag_counts = df.groupby('tag')['item_id'].nunique()
+        idf = np.log((total_books + 1) / (tag_counts + 1))
+        min_val = idf.min()
+        max_val = idf.max()
+        norm_idf = (idf - min_val) / (max_val - min_val)
+        return norm_idf
+
+    
+
     #하나의 감정을 입력하면 그에 따른 결과를 출력
     #필요에 따라서 상위 n개의 결과로 제한
-    def recommend_books_by_emotion(self, emotion, top_n = 10):
+    def recommend_books_by_emotion(self, emotion, top_n = 100):
         # 감정 단어가 tag에 포함된 행만 필터링
         filtered = self.data[self.data['tag'].str.contains(emotion, case=False, na=False)]
         # 만약 평점 컬럼이 있으면, 높은 순으로 정렬
-        if 'avg_rating' in filtered.columns:
-            filtered = filtered.sort_values('avg_rating', ascending=False)
+        #if 'avg_rating' in filtered.columns:
+        #    filtered = filtered.sort_values('avg_rating', ascending=False)
         # 상위 top_n개만 추출
         filtered = filtered.head(top_n)[['item_id', 'tag', 'avg_rating']]
         # 메타데이터(제목, 저자)와 병합
@@ -42,8 +55,14 @@ class book_db:
         result = result[['title', 'authors', 'tag', 'avg_rating']].drop_duplicates(subset=['title', 'authors', 'tag'])
         result = result.head(top_n).reset_index(drop=True)  # 인덱스 재설정!
 
+        # 정규화된 구체성 점수 붙이기
+        norm_specificity = self.normalized_tag_specificity(self.data)
+        result['norm_specificity'] = result['tag'].map(norm_specificity)
+        #구체성 컬럼값 기준으로 내림차순 정렬
+        result = result.sort_values('norm_specificity', ascending=False).head(top_n).reset_index(drop=True)
+
         #top_n만 반환
-        return result.head(top_n)
+        return result#.head(top_n)
     
     #여러 감정들을 리스트로 받아서 전체 순회
     def lookup_all(self, text):
@@ -56,7 +75,7 @@ class book_db:
 
 
 db = book_db()
-print(db.recommend_books_by_emotion('adventure'))
+print(db.recommend_books_by_emotion('funny'))
 
 class movie_db:
     a = 0
