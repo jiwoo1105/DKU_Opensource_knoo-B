@@ -10,21 +10,24 @@ all_emo_map = {
 }
 
 #user의 감정 분석 결과를 받아와서 처리하는 함수
-# 단순히 감정 분석 결과만 필요하다면 함수 사용 x
-def user_emo_logic():
+#기존에 정의한 book db의 조회 가능 감정을 이용해서 
+#감정 매핑 및 필터링 
+def user_emo_logic_book():
     emo_list = []
     return emo_list
 
-def music_logic(track):
+#기본적으로 user_emo_logic_book과 같은 logic
+#movie 처리의 경우 줄거리에 대한 분석 결과를 이용해서 추가 정제
+def user_emo_logic_movie():
+    emo_list = []
+    return emo_list
 
-    #db 조회시 
-
-    return track
 
 #비슷한 감정 처리 로직
 def similar_emo_logic(emotions):
     return emotions
 
+#book과 movie의 경우 분리?
 #반대 감정 추출 
 #반대 되는 감정들의 가장 낮은 값을 리턴
 def reverse_emo_logic(all_emo_map):
