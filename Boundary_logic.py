@@ -9,7 +9,6 @@ all_emo_map = {
     'surprise' : [], 'neutral' : []
 }
 
-#user의 감정 분석 결과를 받아와서 처리하는 함수
 #기존에 정의한 book db의 조회 가능 감정을 이용해서 
 #감정 매핑 및 필터링 
 def user_emo_logic_book():
@@ -22,49 +21,26 @@ def user_emo_logic_movie():
     emo_list = []
     return emo_list
 
-
-#비슷한 감정 처리 로직
-def similar_emo_logic(emotions_dict):
+def process_emotion_results(results):
     """
-    비슷한 감정 추출 함수 (높은 점수부터)
-    :param emotions_dict: 감정:점수 딕셔너리
-    :return: 바운더리 조건을 만족하는 가장 높은 감정들의 딕셔너리
+    emotion_analysis.py의 결과를 딕셔너리로 변환
+    :param results: emotion_analysis.py의 결과 리스트
+    :return: 감정:점수 딕셔너리
     """
-    # 감정들을 점수 기준으로 내림차순 정렬
-    sorted_emotions = sorted(emotions_dict.items(), key=lambda x: x[1], reverse=True)
-    
-    # 결과를 저장할 딕셔너리
-    result = {}
-    
-    # 첫 번째 감정은 무조건 포함
-    result[sorted_emotions[0][0]] = sorted_emotions[0][1]
-    
-    # 이전 감정의 점수
-    prev_score = sorted_emotions[0][1]
-    
-    # 바운더리 값
-    BOUNDARY = 0.005
-    
-    # 두 번째 감정부터 순회하면서 바운더리 체크
-    for emotion, score in sorted_emotions[1:]:
-        # 현재 감정과 이전 감정의 점수 차이가 바운더리 이하인 경우만 포함
-        if prev_score - score <= BOUNDARY:
-            result[emotion] = score
-        else:
-            break
-        prev_score = score
-    
-    return result
+    return {result['label']: result['score'] for result in results}
 
-#book과 movie의 경우 분리?
-#반대 감정 추출 
-#반대 되는 감정들의 가장 낮은 값을 리턴
-def reverse_emo_logic(emotions_dict):
+def reverse_emo_logic(results):
     """
     반대되는 감정 추출 함수 (낮은 점수부터)
-    :param emotions_dict: 감정:점수 딕셔너리
+    :param results: emotion_analysis.py의 결과 리스트 또는 감정:점수 딕셔너리
     :return: 바운더리 조건을 만족하는 가장 낮은 감정들의 딕셔너리
     """
+    # 결과가 리스트인 경우 딕셔너리로 변환
+    if isinstance(results, list):
+        emotions_dict = process_emotion_results(results)
+    else:
+        emotions_dict = results
+        
     # 감정들을 점수 기준으로 오름차순 정렬
     sorted_emotions = sorted(emotions_dict.items(), key=lambda x: x[1])
     
@@ -91,30 +67,65 @@ def reverse_emo_logic(emotions_dict):
     
     return result
 
-# 테스트용 메인 함수
-if __name__ == "__main__":
-    # 테스트 데이터
-    emotions = {
-        '중립': 0.5543,
-        '행복': 0.5511,
-        '슬픔': 0.0275,
-        '분노': 0.0075,
-        '당황': 0.0050,
-        '혐오': 0.0032,
-        '불안': 0.0015
-    }
+def similar_emo_logic(results):
+    """
+    비슷한 감정 추출 함수 (높은 점수부터)
+    :param results: emotion_analysis.py의 결과 리스트 또는 감정:점수 딕셔너리
+    :return: 바운더리 조건을 만족하는 가장 높은 감정들의 딕셔너리
+    """
+    # 결과가 리스트인 경우 딕셔너리로 변환
+    if isinstance(results, list):
+        emotions_dict = process_emotion_results(results)
+    else:
+        emotions_dict = results
+        
+    # 감정들을 점수 기준으로 내림차순 정렬
+    sorted_emotions = sorted(emotions_dict.items(), key=lambda x: x[1], reverse=True)
     
-    # 반대 감정 추출 (낮은 점수부터)
-    reverse_result = reverse_emo_logic(emotions)
-    print("=== 반대 감정 추출 결과 ===")
-    for emotion, score in reverse_result.items():
+    # 결과를 저장할 딕셔너리
+    result = {}
+    
+    # 첫 번째 감정은 무조건 포함
+    result[sorted_emotions[0][0]] = sorted_emotions[0][1]
+    
+    # 이전 감정의 점수
+    prev_score = sorted_emotions[0][1]
+    
+    # 바운더리 값
+    BOUNDARY = 0.005
+    
+    # 두 번째 감정부터 순회하면서 바운더리 체크
+    for emotion, score in sorted_emotions[1:]:
+        # 현재 감정과 이전 감정의 점수 차이가 바운더리 이하인 경우만 포함
+        if prev_score - score <= BOUNDARY:
+            result[emotion] = score
+        else:
+            break
+        prev_score = score
+    
+    return result
+
+def print_boundary_results(results):
+    """
+    바운더리 분석 결과 출력
+    :param results: emotion_analysis.py의 결과 리스트
+    """
+    # 유사 감정 추출
+    similar = similar_emo_logic(results)
+    print("\n[유사 감정 그룹 (바운더리: 0.005)]")
+    for emotion, score in similar.items():
         print(f"{emotion}: {score:.4f}")
         
-    # 비슷한 감정 추출 (높은 점수부터)
-    print("\n=== 비슷한 감정 추출 결과 ===")
-    similar_result = similar_emo_logic(emotions)
-    for emotion, score in similar_result.items():
+    # 반대 감정 추출
+    opposite = reverse_emo_logic(results)
+    print("\n[반대 감정 그룹 (바운더리: 0.005)]")
+    for emotion, score in opposite.items():
         print(f"{emotion}: {score:.4f}")
+
+# 사용 예시:
+# from analysis.emotion_analysis import text_analy
+# results = text_analy("분석할 텍스트")
+# print_boundary_results(results)
 
 
 
