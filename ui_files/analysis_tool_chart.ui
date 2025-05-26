@@ -33,7 +33,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="Show_result_by_chart">
+         <widget class="QWebEngineView" name="Show_result_by_chart">
           <property name="styleSheet">
            <string notr="true">font: 57 10pt &quot;G마켓 산스 TTF Medium&quot;;
 color: #333333;
@@ -128,6 +128,13 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">PySide2.QtWebEngineWidgets</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
