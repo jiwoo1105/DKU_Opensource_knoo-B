@@ -8,14 +8,17 @@ from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, Q
 class MainView(QMainWindow):
     #책과 관련된 정리된 데이터
     global data_after_logic_book
+    global data_after_logic_movie
 
     result_book = []
     result_movie = []
  
-    def __init__(self, data_after_logic = None):
+    def __init__(self, data_after_logic = None ,data_after_logic_movie = None):
         super().__init__()
         #chart로부터 넘겨 받은 정제된 data
         self.data_after_logic_book = data_after_logic
+        self.data_after_logic_movie = data_after_logic_movie
+        
         self.setupUI()
         
     def setupUI(self):
@@ -34,6 +37,7 @@ class MainView(QMainWindow):
     #최종 추천 결과를 보여주는 함수
     def show_result(self):
         self.result_book = self.get_recom_book()
+        #self.result_movie = self.get_recom_movie()
 
         if(self.result_book != None):
             UI_set.recommend_book.setText(self.result_book)
@@ -53,6 +57,7 @@ class MainView(QMainWindow):
     
     def get_recom_book(self):
         db = DB.book_db()
+        # data => logic을 이용해 정제된 data
         data = self.data_after_logic_book
         result = db.lookup_all(data)
 

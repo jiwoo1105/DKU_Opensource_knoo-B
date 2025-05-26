@@ -10,6 +10,7 @@ class MainView(QMainWindow):
     global user_emotion_result
     #logic을 통해 잘 정제된 데이터 -> result로 넘겨서 추천 결과 출력 
     global data_after_logic_book
+    global data_after_logic_movie
     global plot_result
 
     def __init__(self,user_emotion_result = None):
@@ -32,24 +33,32 @@ class MainView(QMainWindow):
         self.show()
 
     #logic을 이용해서 감정 분석 결과를 후처리
-    def do_emo_logic(self):
+    #각각 book과 movie의 db 조회에 가능한 감정 맵을 이용해서 감정끼리 매핑
+    #감정 분석 결과를 필터링하고 바운더리 조정으로 data 정제
+    #logic의 함수 이용
+    def do_emo_logic_book(self):
         result = []
         self.data_after_logic_book
+
+    def do_emo_logic_movie(self):
+        result = []
+        self.data_after_logic_movie
     
     #차트 분석 결과 출력 함수
     def show_result(self):
         UI_set.Show_user_emotion.setText(self.user_emotion_result)
-        UI_set.Show_result_by_chart.setHtml(plot_result)
+        UI_set.Show_result_by_chart.setHtml(self.plot_result)
 
     #mylist에 저장된 값을 이용해서 chart에 plotly를 이용해 그릴 예정
     #plotly와 관련된 연결부분 함수 필요 ex) def make_chart(self): ~~
     #결과물은 plot_result라는 전역변수 저장후 show_result함수로 출력
+    #plot_result의 결과는 html 문자열으로 예상
     def get_plot_result(self):
-         self.plot_result = 0
+        self.plot_result = 0
 
     #결과 창으로 이동
     def goto_result(self):
-        self.S = analysis_tool_result.MainView(self.data_after_logic)
+        self.S = analysis_tool_result.MainView(self.data_after_logic_book, self.data_after_logic_movie)
 
 
 # 파일 경로
