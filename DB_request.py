@@ -122,7 +122,7 @@ class movie_db:
             #입력한 태그와 일치하는 태그가 없다면.. -> 검색 불가 => 종료 or return -1 하고 따로 처리
             exit()
 
-        # 여러 태그 중 relevance가 가장 높은 영화 추천 (상위 10개)
+        # 여러 태그 중 relevance가 가장 높은 영화 추천 (상위 top_n개)
         recommendations = pd.DataFrame()
 
         for tag_id in matched_tags['tagId']:
@@ -149,9 +149,54 @@ class movie_db:
             recom = self.recommend_movies_by_emotion(emo)
             result.extend(recom)
         return result
+    
+    #입력되는 감정은 필터된 감정 or raw한 감정
+    #raw한 감정의 경우 처리함수 불러서 내부에서 처리
+    #필터된 감정은 그대로 사용
+    #2가지 방안중 택 1
+    def recom_movie(self):
+        #movie_emotions.json 읽어서 DataFrame 생성
+        with open("movie_emotions.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+        #각 영화별로 (title, emotion, score) 세 개 컬럼을 가진 DataFrame으로 전개
+        rows = []
+        for entry in data:
+            title = entry["title"]
+            for emotion, score in entry["emo_value"].items():
+                rows.append({
+                    "title": title,
+                    "emotion": emotion,
+                    "score": score
+                })
+        df = pd.DataFrame(rows)
+
+        #테스트용 감정분석 셋 => 나중에 감정셋 따로 처리 에정
+        user_emotions = [("불안", 0.7), ("행복", 0.4)]
+
+        #감정별로 Top N개의 추천 결과 저장할 딕셔너리
+        recommendations = {}
+
+        for emotion, user_val in user_emotions:
+            #해당 감정만 필터
+            df_em = df[df["emotion"] == emotion].copy()
+            #영화 점수와 사용자 값 차이 절댓값 계산
+            df_em["diff"] = (df_em["score"] - user_val).abs()
+            #diff 오름차순(작은 순) 정렬 후 상위 N개
+            top10 = df_em.nsmallest(10, "diff")[["title", "score", "diff"]]
+            #추천 결과 리스트에 저장
+            #필요하다면 title만 뽑거나 score도 함께 보관할 수 있음
+            recommendations[emotion] = top10
+
+        #테스트 결과 출력 예시
+        for emotion, rec_df in recommendations.items():
+            print(f"\n=== 감정 '{emotion}' → 사용자 값: {dict(user_emotions)[emotion]} ===")
+            print(rec_df.to_string(index=False))
+
+
 
 #db 조회 테스트용 코드
-#db = movie_db()
+db = movie_db()
+db.recom_movie()
 #rerom = db.recommend_movies_by_emotion('sad')
 #print(rerom)
 
