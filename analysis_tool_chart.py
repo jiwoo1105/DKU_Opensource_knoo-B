@@ -32,6 +32,8 @@ class MainView(QMainWindow):
         self.resize(510, 350)
         self.show()
 
+
+
     #logic을 이용해서 감정 분석 결과를 후처리
     #각각 book과 movie의 db 조회에 가능한 감정 맵을 이용해서 감정끼리 매핑
     #감정 분석 결과를 필터링하고 바운더리 조정으로 data 정제
