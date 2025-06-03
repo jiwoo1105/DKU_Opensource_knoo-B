@@ -6,119 +6,196 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>595</height>
+    <width>900</width>
+    <height>600</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>900</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>감정 분석 결과</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #F3F0FF;
+}
+QLabel {
+    color: #845EF7;
+    font-family: 'AppleGothic';
+    font-size: 14pt;
+    font-weight: bold;
+}
+QTextBrowser {
+    background-color: white;
+    border: 2px solid #B197FC;
+    border-radius: 15px;
+    padding: 15px;
+    font-family: 'AppleGothic';
+    color: #845EF7;
+    font-size: 12pt;
+}
+QPushButton {
+    background-color: #B197FC;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 13pt;
+    font-weight: bold;
+    font-family: 'AppleGothic';
+}
+QPushButton:hover {
+    background-color: #845EF7;
+}
+QRadioButton {
+    font-family: 'AppleGothic';
+    color: #845EF7;
+    font-size: 12pt;
+    spacing: 8px;
+}
+QRadioButton::indicator {
+    width: 20px;
+    height: 20px;
+}
+QRadioButton::indicator:unchecked {
+    border: 2px solid #B197FC;
+    border-radius: 10px;
+    background-color: white;
+}
+QRadioButton::indicator:checked {
+    border: 2px solid #B197FC;
+    border-radius: 10px;
+    background-color: #B197FC;
+}
+QWidget#Show_result_by_chart {
+    background-color: white;
+    border: 2px solid #B197FC;
+    border-radius: 15px;
+    padding: 20px;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>30</number>
+    </property>
+    <property name="leftMargin">
+     <number>40</number>
+    </property>
+    <property name="topMargin">
+     <number>40</number>
+    </property>
+    <property name="rightMargin">
+     <number>40</number>
+    </property>
+    <property name="bottomMargin">
+     <number>40</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>AppleGothic</family>
+        <pointsize>16</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+    background-color: #EDE8FF;
+    border: 2px solid #B197FC;
+    border-radius: 15px;
+    padding: 15px;
+}</string>
+      </property>
+      <property name="text">
+       <string>현재 감정에 대한 분석결과</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="font">
-           <font>
-            <family>G마켓 산스 TTF Medium</family>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>현재 감정에 대한 분석결과</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QWebEngineView" name="Show_result_by_chart">
-          <property name="styleSheet">
-           <string notr="true">font: 57 10pt &quot;G마켓 산스 TTF Medium&quot;;
-color: #333333;
-
-border-width: 2px;
-border-radius: 6px;
-</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QWidget" name="Show_result_by_chart" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>380</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>20</number>
+        </property>
         <item>
          <widget class="QTextBrowser" name="Show_user_emotion">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>200</height>
+           </size>
           </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="similar_emotion_button">
+          <property name="text">
+           <string>제 감정과 비슷한 영화를 추천해주세요!</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="reverse_emotion_button">
+          <property name="text">
+           <string>제 감정과 반대되는 영화를 추천받고 싶어요!</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="goto_result">
           <property name="minimumSize">
            <size>
             <width>200</width>
-            <height>150</height>
+            <height>50</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
-            <height>200</height>
+            <width>200</width>
+            <height>50</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>Gmarket Sans TTF</family>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Gmarket Sans TTF'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;현재 당신의 감정은...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <property name="text">
+           <string>추천 결과 보기!</string>
           </property>
          </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QRadioButton" name="similar_emotion_button">
-            <property name="font">
-             <font>
-              <family>G마켓 산스 TTF Medium</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>제 감정과 비슷한 영화를 추천해주세요!</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="reverse_emotion_button">
-            <property name="font">
-             <font>
-              <family>G마켓 산스 TTF Medium</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>제 감정과 반대되는 영화를 추천받고 싶어요!</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="goto_result">
-            <property name="text">
-             <string>추천 결과 보기!</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
        </layout>
       </item>
@@ -126,15 +203,7 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebEngineView</class>
-   <extends>QGraphicsView</extends>
-   <header location="global">PySide2.QtWebEngineWidgets</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
