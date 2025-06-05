@@ -43,19 +43,11 @@ class MainView(QMainWindow):
         self.setWindowTitle("감정에 대한 분석 차트")
         self.resize(800, 600)  # 창 크기 키움
         self.show()
-        
-        if self.user_emotion_result:
-            self.show_result()
-
-<<<<<<< HEAD
-
 
     #logic을 이용해서 감정 분석 결과를 후처리
     #각각 book과 movie의 db 조회에 가능한 감정 맵을 이용해서 감정끼리 매핑
     #감정 분석 결과를 필터링하고 바운더리 조정으로 data 정제
     #logic의 함수 이용
-=======
->>>>>>> cb89eb9 (Fix : 버그 수정)
     def do_emo_logic_book(self):
         # 책 관련 감정 로직 처리
         self.data_after_logic_book = []  # 실제 로직 구현 필요
