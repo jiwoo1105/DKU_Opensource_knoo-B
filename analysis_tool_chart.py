@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 import matplotlib as mpl
+import DB_request
 
 # 한글 폰트 설정
 mpl.rcParams['font.family'] = 'AppleGothic'
@@ -24,10 +25,14 @@ class MainView(QMainWindow):
         self.colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99', '#FF99CC', '#99CCFF', '#FFB366']
         self.setupUI()
         
+        # 초기화 후 바로 결과 표시
+        if self.user_emotion_result:
+            self.show_result()
+
     def setupUI(self):
         global UI_set
         UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_chart.ui"))
-        UI_set.goto_result.clicked.connect(self.goto_result)
+        UI_set.goto_result.clicked.connect(self.prepare_recommendations)  # 버튼 클릭 시 추천 준비 및 결과 창 열기
 
         # 차트를 표시할 Figure 생성
         self.figure = plt.Figure(facecolor='#F0F0F0')
@@ -59,6 +64,7 @@ class MainView(QMainWindow):
     def show_result(self):
         # 감정 분석 결과를 문자열로 변환
         result_text = "감정 분석 결과:\n\n"  # 줄 간격 추가
+        
         for emotion in self.user_emotion_result:
             # 백분율로 변환하여 표시
             percentage = emotion['score'] * 100
@@ -104,8 +110,29 @@ class MainView(QMainWindow):
         # 차트 업데이트
         self.canvas.draw()
 
+    def prepare_recommendations(self):
+        # 감정 분석 결과를 튜플 리스트로 변환
+        user_emotions = [(emotion['label'], emotion['score']) for emotion in self.user_emotion_result]
+        
+        # 책과 영화 추천 결과 가져오기
+        self.data_after_logic_book = self.recom_book(user_emotions)
+        self.data_after_logic_movie = self.recom_movie(user_emotions)
+        
+        # 결과 창 열기
+        self.goto_result()
+
     def goto_result(self):
         self.S = analysis_tool_result.MainView(self.data_after_logic_book, self.data_after_logic_movie)
+
+    def recom_book(self, user_emotions):
+        # DB_request의 book_db 클래스 사용
+        db = DB_request.book_db()
+        return db.recom_book(user_emotions)  # user_emotions 인자 전달
+
+    def recom_movie(self, user_emotions):
+        # DB_request의 movie_db 클래스 사용
+        db = DB_request.movie_db()
+        return db.recom_movie(user_emotions)  # user_emotions 인자 전달
 
 def resource_path(relative_path):
     if hasattr(sys, '_MEIPASS'):

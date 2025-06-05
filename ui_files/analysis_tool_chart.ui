@@ -88,30 +88,6 @@ p, li { white-space: pre-wrap; }
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QRadioButton" name="similar_emotion_button">
-            <property name="font">
-             <font>
-              <family>G마켓 산스 TTF Medium</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>제 감정과 비슷한 영화를 추천해주세요!</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="reverse_emotion_button">
-            <property name="font">
-             <font>
-              <family>G마켓 산스 TTF Medium</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>제 감정과 반대되는 영화를 추천받고 싶어요!</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="goto_result">
             <property name="text">
              <string>추천 결과 보기!</string>
