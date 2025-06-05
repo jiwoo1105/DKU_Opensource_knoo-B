@@ -110,7 +110,7 @@ class movie_db:
         )
   
     #emotion 입력을 통해 해당하는 태그로 db조회후 추천 영화를 받음
-    def recommend_movies_by_emotion(self, emotion, top_n = 10):
+    def recommend_movies_by_emotion(self, emotion, top_n = 50):
         #데이터셋 변환
         movies = self.movies.to_pandas()
         genome_tags = self.genome_tags.to_pandas()

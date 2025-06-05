@@ -4,81 +4,123 @@ from PySide2 import QtUiTools, QtGui
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
 import analysis_tool_result
 import Boundary_logic as logic
-from PySide2.QtWebEngineWidgets import QWebEngineView
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import numpy as np
+import matplotlib as mpl
+
+# 한글 폰트 설정
+mpl.rcParams['font.family'] = 'AppleGothic'
+mpl.rcParams['axes.unicode_minus'] = False
 
 class MainView(QMainWindow):
-    global user_emotion_result
-    #logic을 통해 잘 정제된 데이터 -> result로 넘겨서 추천 결과 출력 
-    global data_after_logic_book
-    global data_after_logic_movie
-    global plot_result
-
-    def __init__(self,user_emotion_result = None):
+    def __init__(self, user_emotion_result=None):
         super().__init__()
-        #사용자 감정 분석된 결과 넘겨받기
         self.user_emotion_result = user_emotion_result
-
+        self.data_after_logic_book = None
+        self.data_after_logic_movie = None
+        
+        # 차트 색상 설정
+        self.colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99', '#FF99CC', '#99CCFF', '#FFB366']
         self.setupUI()
         
     def setupUI(self):
         global UI_set
+        UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_chart.ui"))
+        UI_set.goto_result.clicked.connect(self.goto_result)
 
-        UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_chart.ui")) # ui파일 오픈
-
-        UI_set.goto_result.clicked.connect(self.goto_result) #최종 결과창으로의 이벤트 연결
+        # 차트를 표시할 Figure 생성
+        self.figure = plt.Figure(facecolor='#F0F0F0')
+        self.canvas = FigureCanvas(self.figure)
+        
+        # 기존 차트 위젯을 찾아서 레이아웃에 matplotlib 캔버스 추가
+        chart_widget = UI_set.findChild(QWidget, "Show_result_by_chart")
+        if chart_widget:
+            layout = QVBoxLayout(chart_widget)
+            layout.addWidget(self.canvas)
 
         self.setCentralWidget(UI_set)
         self.setWindowTitle("감정에 대한 분석 차트")
-        self.resize(510, 350)
+        self.resize(800, 600)  # 창 크기 키움
         self.show()
+        
+        if self.user_emotion_result:
+            self.show_result()
 
+<<<<<<< HEAD
 
 
     #logic을 이용해서 감정 분석 결과를 후처리
     #각각 book과 movie의 db 조회에 가능한 감정 맵을 이용해서 감정끼리 매핑
     #감정 분석 결과를 필터링하고 바운더리 조정으로 data 정제
     #logic의 함수 이용
+=======
+>>>>>>> cb89eb9 (Fix : 버그 수정)
     def do_emo_logic_book(self):
-        result = []
-        self.data_after_logic_book
-
-    def do_emo_logic_movie(self):
-        result = []
-        self.data_after_logic_movie
+        # 책 관련 감정 로직 처리
+        self.data_after_logic_book = []  # 실제 로직 구현 필요
     
-    #차트 분석 결과 출력 함수
+    def do_emo_logic_movie(self):
+        # 영화 관련 감정 로직 처리
+        self.data_after_logic_movie = []  # 실제 로직 구현 필요
+    
     def show_result(self):
-        UI_set.Show_user_emotion.setText(self.user_emotion_result)
-        UI_set.Show_result_by_chart.setHtml(self.plot_result)
+        # 감정 분석 결과를 문자열로 변환
+        result_text = "감정 분석 결과:\n\n"  # 줄 간격 추가
+        for emotion in self.user_emotion_result:
+            # 백분율로 변환하여 표시
+            percentage = emotion['score'] * 100
+            result_text += f"{emotion['label']}: {percentage:.1f}%\n"
+        
+        # 사용자 감정 결과 텍스트 표시
+        UI_set.Show_user_emotion.setText(result_text)
+        
+        # 차트 데이터 준비
+        emotions = [emotion['label'] for emotion in self.user_emotion_result]
+        values = [emotion['score'] for emotion in self.user_emotion_result]
+        
+        # 차트 그리기
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
+        
+        # 원형 차트 그리기
+        wedges, texts, autotexts = ax.pie(values, 
+                                        labels=emotions,
+                                        colors=self.colors,
+                                        autopct='%1.1f%%',
+                                        startangle=90,
+                                        pctdistance=0.85,
+                                        wedgeprops=dict(width=0.5))  # 도넛 형태로 만들기
+        
+        # 차트 제목 설정
+        ax.set_title('감정 분석 결과', pad=20, fontsize=14, fontweight='bold', fontfamily='AppleGothic')
+        
+        # 범례 설정
+        ax.legend(wedges, emotions,
+                title="감정",
+                loc="center left",
+                bbox_to_anchor=(1, 0, 0.5, 1),
+                prop={'family': 'AppleGothic'})
+        
+        # 텍스트 스타일 설정
+        plt.setp(autotexts, size=8, weight="bold", fontfamily='AppleGothic')
+        plt.setp(texts, size=10, fontfamily='AppleGothic')
+        
+        # 레이아웃 조정
+        self.figure.tight_layout()
+        
+        # 차트 업데이트
+        self.canvas.draw()
 
-    #mylist에 저장된 값을 이용해서 chart에 plotly를 이용해 그릴 예정
-    #plotly와 관련된 연결부분 함수 필요 ex) def make_chart(self): ~~
-    #결과물은 plot_result라는 전역변수 저장후 show_result함수로 출력
-    #plot_result의 결과는 html 문자열으로 예상
-    def get_plot_result(self):
-        self.plot_result = 0
-
-    #결과 창으로 이동
     def goto_result(self):
         self.S = analysis_tool_result.MainView(self.data_after_logic_book, self.data_after_logic_movie)
-
-
-# 파일 경로
-
-# pyinstaller로 원파일로 압축할때 경로 필요함
 
 def resource_path(relative_path):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
-
     return os.path.join(os.path.abspath("."), relative_path)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
     main = MainView()
-
-    # main.show()
-
     sys.exit(app.exec_())

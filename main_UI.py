@@ -19,11 +19,10 @@ class MainView(QMainWindow):
 
     def setupUI(self):
         global UI_set
-
         UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/main.ui"))
 
         #2개의 버튼을 각각의 창으로 연결 -> 1) 감정 분석 창 , 2) 정보 검색 창
-        UI_set.Analysis_tool.clicked.connect(self.open_analysis)
+        #UI_set.Analysis_tool.clicked.connect(self.open_analysis)
 
         self.setCentralWidget(UI_set)
         # 메인 타이틀 제목

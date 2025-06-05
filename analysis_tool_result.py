@@ -1,6 +1,8 @@
 import sys
 import os
 import DB_request as DB
+import Boundary_logic as logic
+from analysis import emotion_analysis
 from PySide2 import QtUiTools, QtGui
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
 
@@ -9,16 +11,15 @@ class MainView(QMainWindow):
     #책과 관련된 정리된 데이터
     global data_after_logic_book
     global data_after_logic_movie
-
-    result_book = []
-    result_movie = []
  
-    def __init__(self, data_after_logic = None ,data_after_logic_movie = None):
+    def __init__(self, user_emotion_result=None):
         super().__init__()
         #chart로부터 넘겨 받은 정제된 data
-        self.data_after_logic_book = data_after_logic
-        self.data_after_logic_movie = data_after_logic_movie
-        
+        self.user_emotion_result = user_emotion_result
+        self.do_emo_logic()
+
+        #self.show_result()
+
         self.setupUI()
         
     def setupUI(self):
@@ -36,18 +37,18 @@ class MainView(QMainWindow):
 
     #최종 추천 결과를 보여주는 함수
     def show_result(self):
-        self.result_book = self.get_recom_book()
-        #self.result_movie = self.get_recom_movie()
+        result_book = self.get_recom_book()
+        result_movie = self.get_recom_movie()
 
-        if(self.result_book != None):
-            UI_set.recommend_book.setText(self.result_book)
-        elif(self.result_book == None):
+        if(result_book != None):
+            UI_set.recommend_book.setText(result_book)
+        elif(result_book == None):
             text = "추천되는 책이 없습니다"
             UI_set.recommend_book.setText(text)
-        if(self.result_movie != None):
-            UI_set.recommend_movie.setText(self.result_movie)
-        elif(self.result_movie == None):
-            text = "추천되는 책이 없습니다"
+        if(result_movie != None):
+            UI_set.recommend_movie.setText(result_movie)
+        elif(result_movie == None):
+            text = "추천되는 영화가 없습니다"
             UI_set.recommend_book.setText(text)
 
     #초기 화면으로 돌아가는 함수 -> 추후 구현 예정
@@ -55,16 +56,29 @@ class MainView(QMainWindow):
         #self.S = analysis_tool_chart.MainView()
         return 0
     
+    def do_emo_logic(self):
+        self.data_after_logic_book = [] 
+        # 책 관련 감정 로직 처리
+        similar_data = logic.similar_emo_logic(self.user_emotion_result)
+        reverse_data = logic.reverse_emo_logic(self.user_emotion_result)
+        self.data_after_logic_book.append(similar_data)
+        self.data_after_logic_book.append(reverse_data)
+    
+    #무시
     def get_recom_book(self):
+        result  = []
         db = DB.book_db()
         # data => logic을 이용해 정제된 data
-        data = self.data_after_logic_book
-        result = db.lookup_all(data)
+        data = self.user_emotion_result
 
         return result
-    
+    #구현
     def get_recom_movie(self):
         result = []
+        db = DB.movie_db()
+        for emo in self.data_after_logic_book:
+            value = 1 # emo에서 수치값 컬럼을 받아오는 변수
+            result.append(db.recom_movie(emo))
 
         return result
 
