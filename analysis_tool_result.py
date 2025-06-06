@@ -4,7 +4,10 @@ import DB_request as DB  # 데이터베이스 요청 처리 모듈
 import Boundary_logic as logic  # 감정 경계 로직 처리 모듈
 from analysis import emotion_analysis  # 감정 분석 모듈
 from PySide2 import QtUiTools, QtGui  # Qt GUI 라이브러리
-from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
+from PySide2.QtWidgets import (QMainWindow, QApplication, QFileDialog, QWidget, 
+                             QLabel, QVBoxLayout, QPushButton, QTextBrowser,
+                             QTabWidget, QScrollArea, QHBoxLayout, QFrame)
+from PySide2.QtCore import Qt
 
 
 class MainView(QMainWindow):
@@ -16,17 +19,175 @@ class MainView(QMainWindow):
     global data_after_logic_book
     global data_after_logic_movie
  
-    def __init__(self, book_recommendations=None, movie_recommendations=None):
+    def __init__(self, book_recommendations=None, movie_recommendations=None, user_emotions=None):
         """
         메인 윈도우 초기화
         Args:
             book_recommendations: 책 추천 결과 데이터
             movie_recommendations: 영화 추천 결과 데이터
+            user_emotions: 사용자 감정 분석 결과
         """
         super().__init__()
         self.book_recommendations = book_recommendations
         self.movie_recommendations = movie_recommendations
+        self.user_emotions = user_emotions  # DB_request에서 전달받은 사용자 감정
         self.setupUI()
+
+    def create_emotion_display(self, emotions, title="감정 분포"):
+        """감정 분포를 보여주는 위젯을 생성합니다."""
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        
+        # 제목 레이블
+        title_label = QLabel(title)
+        title_label.setStyleSheet("""
+            QLabel {
+                color: #333333;
+                font-size: 14px;
+                font-weight: bold;
+                padding: 5px;
+                background-color: #f5f5f5;
+                border-radius: 3px;
+            }
+        """)
+        layout.addWidget(title_label)
+        
+        # 감정 분포 표시
+        emotion_text = QTextBrowser()
+        emotion_text.setMaximumHeight(200)
+        emotion_text.setStyleSheet("""
+            QTextBrowser {
+                border: 1px solid #e0e0e0;
+                border-radius: 3px;
+                background-color: #ffffff;
+                padding: 10px;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+        """)
+        
+        emotion_text_content = ""
+        if isinstance(emotions, dict):
+            sorted_emotions = sorted(emotions.items(), key=lambda x: x[1], reverse=True)
+            for emotion, score in sorted_emotions:
+                emotion_text_content += f"{emotion}: {score:.4f}\n"
+        elif isinstance(emotions, list):
+            # DB_request 형식의 감정 데이터 처리 (튜플 리스트)
+            if len(emotions) > 0 and isinstance(emotions[0], tuple):
+                sorted_emotions = sorted(emotions, key=lambda x: x[1], reverse=True)
+                for emotion, score in sorted_emotions:
+                    emotion_text_content += f"{emotion}: {score:.4f}\n"
+            else:
+                sorted_emotions = sorted(emotions, key=lambda x: x['score'], reverse=True)
+                for emotion in sorted_emotions:
+                    emotion_text_content += f"{emotion['label']}: {emotion['score']:.4f}\n"
+                
+        emotion_text.setText(emotion_text_content)
+        layout.addWidget(emotion_text)
+        
+        return widget
+
+    def create_content_widget(self, title, similarity, emotions):
+        """콘텐츠 항목을 위한 위젯을 생성합니다."""
+        widget = QWidget()
+        main_layout = QVBoxLayout(widget)
+        
+        # 제목과 유사도를 표시하는 컨테이너
+        title_container = QWidget()
+        title_container.setStyleSheet("""
+            QWidget {
+                background-color: #f8f9fa;
+                border-radius: 5px;
+                padding: 5px;
+            }
+        """)
+        title_layout = QVBoxLayout(title_container)
+        
+        # 제목 레이블
+        title_label = QLabel(title)
+        title_label.setWordWrap(True)
+        title_label.setStyleSheet("""
+            QLabel {
+                color: #333333;
+                font-size: 16px;
+                font-weight: bold;
+                padding: 5px;
+            }
+        """)
+        title_layout.addWidget(title_label)
+        
+        # 유사도 레이블
+        similarity_label = QLabel(f"감정 유사도: {similarity:.3f}")
+        similarity_label.setStyleSheet("""
+            QLabel {
+                color: #666666;
+                font-size: 12px;
+                padding: 2px 5px;
+            }
+        """)
+        title_layout.addWidget(similarity_label)
+        
+        main_layout.addWidget(title_container)
+        
+        # 감정 분포 관련 위젯들을 담을 컨테이너
+        emotions_container = QWidget()
+        emotions_container.hide()  # 초기에는 숨김
+        emotions_layout = QHBoxLayout(emotions_container)
+        emotions_layout.setSpacing(20)  # 위젯 사이 간격 설정
+        
+        # 콘텐츠의 감정 분포
+        content_emotions = self.create_emotion_display(emotions, "콘텐츠 감정 분포")
+        emotions_layout.addWidget(content_emotions)
+        
+        # 구분선 추가
+        line = QFrame()
+        line.setFrameShape(QFrame.VLine)
+        line.setStyleSheet("background-color: #e0e0e0;")
+        emotions_layout.addWidget(line)
+        
+        # 사용자의 감정 분포
+        if self.user_emotions:
+            user_emotions = self.create_emotion_display(self.user_emotions, "사용자 감정 분포")
+            emotions_layout.addWidget(user_emotions)
+        
+        main_layout.addWidget(emotions_container)
+        
+        # 감정 분포 토글 버튼
+        emotion_btn = QPushButton("감정 분포 비교하기")
+        emotion_btn.setCheckable(True)
+        emotion_btn.setMaximumWidth(200)
+        emotion_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #4a90e2;
+                color: white;
+                border: none;
+                padding: 8px 15px;
+                border-radius: 3px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #357abd;
+            }
+            QPushButton:checked {
+                background-color: #2c3e50;
+            }
+        """)
+        main_layout.addWidget(emotion_btn)
+        
+        # 버튼 클릭 이벤트 연결
+        emotion_btn.toggled.connect(emotions_container.setVisible)
+        
+        # 구분선 추가
+        bottom_line = QFrame()
+        bottom_line.setFrameShape(QFrame.HLine)
+        bottom_line.setStyleSheet("""
+            background-color: #e0e0e0;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        """)
+        main_layout.addWidget(bottom_line)
+        
+        return widget
 
     def setupUI(self):
         """
@@ -37,67 +198,133 @@ class MainView(QMainWindow):
         """
         global UI_set
         UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/analysis_tool_result.ui"))
+        
+        # 탭 위젯 생성
+        self.tab_widget = QTabWidget()
+        self.tab_widget.setStyleSheet("""
+            QTabWidget::pane {
+                border: none;
+                background: white;
+            }
+            QTabWidget::tab-bar {
+                alignment: center;
+            }
+            QTabBar::tab {
+                background: #f0f0f0;
+                color: #333333;
+                padding: 8px 20px;
+                border: none;
+                margin-right: 2px;
+            }
+            QTabBar::tab:selected {
+                background: #4a90e2;
+                color: white;
+            }
+            QTabBar::tab:hover {
+                background: #7db0e8;
+            }
+        """)
+        
+        # 4개의 탭을 위한 스크롤 영역과 위젯 생성
+        self.similar_book_scroll = QScrollArea()
+        self.opposite_book_scroll = QScrollArea()
+        self.similar_movie_scroll = QScrollArea()
+        self.opposite_movie_scroll = QScrollArea()
+        
+        # 각 탭의 컨텐츠 위젯 생성
+        self.similar_book_widget = QWidget()
+        self.opposite_book_widget = QWidget()
+        self.similar_movie_widget = QWidget()
+        self.opposite_movie_widget = QWidget()
+        
+        # 각 위젯의 레이아웃 설정
+        self.similar_book_layout = QVBoxLayout(self.similar_book_widget)
+        self.opposite_book_layout = QVBoxLayout(self.opposite_book_widget)
+        self.similar_movie_layout = QVBoxLayout(self.similar_movie_widget)
+        self.opposite_movie_layout = QVBoxLayout(self.opposite_movie_widget)
+        
+        # 스크롤 영역 설정
+        for scroll, widget in [
+            (self.similar_book_scroll, self.similar_book_widget),
+            (self.opposite_book_scroll, self.opposite_book_widget),
+            (self.similar_movie_scroll, self.similar_movie_widget),
+            (self.opposite_movie_scroll, self.opposite_movie_widget)
+        ]:
+            scroll.setWidget(widget)
+            scroll.setWidgetResizable(True)
+            scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+            scroll.setStyleSheet("""
+                QScrollArea {
+                    border: none;
+                    background: white;
+                }
+                QScrollBar:vertical {
+                    border: none;
+                    background: #f0f0f0;
+                    width: 10px;
+                    margin: 0px;
+                }
+                QScrollBar::handle:vertical {
+                    background: #c1c1c1;
+                    min-height: 20px;
+                    border-radius: 5px;
+                }
+                QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                    height: 0px;
+                }
+            """)
+        
+        # 탭 추가
+        self.tab_widget.addTab(self.similar_book_scroll, "비슷한 감정의 책 Top 10")
+        self.tab_widget.addTab(self.opposite_book_scroll, "반대 감정의 책 Top 10")
+        self.tab_widget.addTab(self.similar_movie_scroll, "비슷한 감정의 영화 Top 10")
+        self.tab_widget.addTab(self.opposite_movie_scroll, "반대 감정의 영화 Top 10")
+        
+        # 기존 위젯을 탭 위젯으로 교체
+        UI_set.verticalLayout.addWidget(self.tab_widget)
+        
         self.show_result()
         self.setCentralWidget(UI_set)
         self.setWindowTitle("추천 결과")
-        self.resize(510, 350)
+        self.resize(800, 600)  # 창 크기 키움
         self.show()
 
     def show_result(self):
         """
         책과 영화 추천 결과를 UI에 표시하는 메서드
-        - 비슷한 감정의 콘텐츠 추천 결과 표시
-        - 반대 감정의 콘텐츠 추천 결과 표시
-        - 각 항목별 감정 분포도 표시
         """
-        book_text = ""
-        movie_text = ""
-
         if self.book_recommendations:
             # 비슷한 감정의 책 추천 결과 처리
-            book_text += "비슷한 감정의 책 추천:\n"
             for book in self.book_recommendations["similar"]:
-                book_text += f"- {book['title']} (유사도: {book['similarity']:.3f})\n"
-                book_text += "  감정 분포:\n"
-                for emotion, score in book['emotions'].items():
-                    book_text += f"    {emotion}: {score:.3f}\n"
-                book_text += "\n"
+                widget = self.create_content_widget(book['title'], book['similarity'], book['emotions'])
+                self.similar_book_layout.addWidget(widget)
+            self.similar_book_layout.addStretch()
             
             # 반대 감정의 책 추천 결과 처리
-            book_text += "\n반대 감정의 책 추천:\n"
             for book in self.book_recommendations["opposite"]:
-                book_text += f"- {book['title']} (유사도: {book['similarity']:.3f})\n"
-                book_text += "  감정 분포:\n"
-                for emotion, score in book['emotions'].items():
-                    book_text += f"    {emotion}: {score:.3f}\n"
-                book_text += "\n"
+                widget = self.create_content_widget(book['title'], book['similarity'], book['emotions'])
+                self.opposite_book_layout.addWidget(widget)
+            self.opposite_book_layout.addStretch()
         else:
-            book_text = "추천할 수 있는 책이 없습니다."
+            self.similar_book_layout.addWidget(QLabel("추천할 수 있는 책이 없습니다."))
+            self.opposite_book_layout.addWidget(QLabel("추천할 수 있는 책이 없습니다."))
 
         if self.movie_recommendations:
             # 비슷한 감정의 영화 추천 결과 처리
-            movie_text += "비슷한 감정의 영화 추천:\n"
             for movie in self.movie_recommendations["similar"]:
-                movie_text += f"- {movie['title']} (유사도: {movie['similarity']:.3f})\n"
-                movie_text += "  감정 분포:\n"
-                for emotion, score in movie['emotions'].items():
-                    movie_text += f"    {emotion}: {score:.3f}\n"
-                movie_text += "\n"
+                widget = self.create_content_widget(movie['title'], movie['similarity'], movie['emotions'])
+                self.similar_movie_layout.addWidget(widget)
+            self.similar_movie_layout.addStretch()
             
             # 반대 감정의 영화 추천 결과 처리
-            movie_text += "\n반대 감정의 영화 추천:\n"
             for movie in self.movie_recommendations["opposite"]:
-                movie_text += f"- {movie['title']} (유사도: {movie['similarity']:.3f})\n"
-                movie_text += "  감정 분포:\n"
-                for emotion, score in movie['emotions'].items():
-                    movie_text += f"    {emotion}: {score:.3f}\n"
-                movie_text += "\n"
+                widget = self.create_content_widget(movie['title'], movie['similarity'], movie['emotions'])
+                self.opposite_movie_layout.addWidget(widget)
+            self.opposite_movie_layout.addStretch()
         else:
-            movie_text = "추천할 수 있는 영화가 없습니다."
-
-        # UI에 결과 텍스트 설정
-        UI_set.recommend_book.setText(book_text)
-        UI_set.recommend_movie.setText(movie_text)
+            self.similar_movie_layout.addWidget(QLabel("추천할 수 있는 영화가 없습니다."))
+            self.opposite_movie_layout.addWidget(QLabel("추천할 수 있는 영화가 없습니다."))
 
     def goto_first(self):
         """

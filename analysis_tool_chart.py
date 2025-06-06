@@ -122,7 +122,9 @@ class MainView(QMainWindow):
         self.goto_result()
 
     def goto_result(self):
-        self.S = analysis_tool_result.MainView(self.data_after_logic_book, self.data_after_logic_movie)
+        # 사용자 감정을 튜플 리스트로 변환
+        user_emotions = [(emotion['label'], emotion['score']) for emotion in self.user_emotion_result]
+        self.S = analysis_tool_result.MainView(self.data_after_logic_book, self.data_after_logic_movie, user_emotions)
 
     def recom_book(self, user_emotions):
         # DB_request의 book_db 클래스 사용
