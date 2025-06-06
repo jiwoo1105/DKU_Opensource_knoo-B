@@ -100,86 +100,36 @@ p, li { white-space: pre-wrap; }
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QLabel" name="select_genre">
-              <property name="font">
-               <font>
-                <family>G마켓 산스 TTF Medium</family>
-               </font>
-              </property>
-              <property name="text">
-               <string>원하시는 장르가 있으신가요?</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="select_genre_by_combo">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>70</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>250</width>
-                <height>70</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">border-style: solid;
-border-width: 2px;
-border-radius: 3px
-</string>
-              </property>
-              <item>
-               <property name="text">
-                <string>선택안함</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>코미디</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>액션</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>공포</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>다큐</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>뮤지컬</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
            <widget class="QPushButton" name="go_chart">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>70</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>G마켓 산스 TTF Medium</family>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    background-color: #F5A9B8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+}
+QPushButton:hover {
+    background-color: #F7819F;
+}
+QPushButton:pressed {
+    background-color: #FA5882;
+}</string>
+            </property>
             <property name="text">
-             <string>분석 go!</string>
+             <string>분석 시작!</string>
             </property>
            </widget>
           </item>
