@@ -8,7 +8,9 @@ import Boundary_logic as logic  # 감정 경계값 처리 로직
 import json
 import pandas as pd
 import numpy as np
+from typing import List, Tuple, Optional
 import os
+
 #from analysis import emotion_analysis
 
 #책 관련 DB 조회 클래스
@@ -89,10 +91,84 @@ class book_db:
             "similar": similar_books[:top_n],
             "opposite": opposite_books[:top_n]
         }
+    
+    def search_and_get_book_summaries(self,text: str) -> List[Tuple[str, str]]:
+        """
+        OpenLibrary API를 사용해, 책 제목(title)에 `text`가 포함된 항목을 검색하고,
+        각 항목의 제목과 줄거리(description)를 튜플로 묶어 리스트로 반환
+        """
+        results: List[Tuple[str, str]] = []
+
+        #Search API 호출 (책 제목에 포함된 항목 검색)
+        search_url = "https://openlibrary.org/search.json"
+        params = {
+            "title": text,   # 책 제목 필드에 text가 포함된 모든 항목 검색
+            "limit": 10      # 필요에 따라 검색 결과 수량을 조절
+        }
+
+        try:
+            resp = requests.get(search_url, params=params, timeout=5)
+            resp.raise_for_status()
+        except Exception as e:
+            print(f"[Error] OpenLibrary 검색 실패: {e}")
+            return []
+
+        data = resp.json()
+        docs = data.get("docs", [])
+
+        #검색 결과(docs) 순회
+        for doc in docs:
+            work_key = doc.get("key") 
+            title    = doc.get("title")  # 책 제목
+
+            if not work_key or not title:
+                continue
+
+            #/works/{work_key}.json 호출해서 description 필드 가져오기
+            detail_url = f"https://openlibrary.org{work_key}.json"
+            try:
+                detail_resp = requests.get(detail_url, timeout=5)
+                detail_resp.raise_for_status()
+            except Exception as e:
+                print(f"[Warning] 책 상세 정보 조회 실패: {work_key} → {e}")
+                continue
+
+            detail = detail_resp.json()
+            desc = detail.get("description")
+
+            # description이 dict인지 str인지 모두 처리
+            if isinstance(desc, dict):
+                summary = desc.get("value")
+            elif isinstance(desc, str):
+                summary = desc
+            else:
+                # 줄거리(description)가 없으면 건너뜀
+                continue
+
+            if not summary:
+                continue
+
+            #(책 제목, 줄거리) 튜플을 결과 목록에 추가
+            results.append((title, summary))
+
+        return results
 
 #db 조회 테스트용 코드
-#db = book_db()
+"""
+db = book_db()
+
+text = "fun"
+matches = db.search_and_get_book_summaries(text)
+
+if not matches:
+    print("검색 결과가 없거나 줄거리가 제공되지 않는 책입니다.")
+else:
+    print(f"\n'{text}'을(를) 포함한 책 중 줄거리가 있는 결과 {len(matches)}개:")
+    for idx, (title, summary) in enumerate(matches, start=1):
+        print(f"\n[{idx}] 제목: {title}\n줄거리:\n{summary}\n{'-'*40}")
+"""
 #db.recom_book([("불안", 0.7), ("행복", 0.4)])
+
 
 
 class movie_db:
@@ -173,12 +249,215 @@ class movie_db:
             "similar": similar_movies[:10],
             "opposite": opposite_movies[:10]
         }
+    
+    def search_and_get_movie_summaries(self,text: str) -> List[Tuple[str, str, str]]:
+        """
+        TMDb API를 사용해, 영화 제목(title)에 `text`가 포함된 항목을 검색하고,
+        각 영화의 (제목, 감독, 줄거리) 튜플을 리스트로 반환합니다.
+        """
+
+        #TMDb API 키 불러오기
+        #제 개인 발급 키 입니다
+        api_key = "b2fabf6e796b44bfd686fffdc21ddaf7"
+
+        results: List[Tuple[str, str, str]] = []
+
+        #검색 API 호출: /search/movie?api_key=...&query=<text>&language=ko-KR&page=1
+        search_url = "https://api.themoviedb.org/3/search/movie"
+        params = {
+            "api_key": api_key,
+            "query": text,
+            "language": "ko-KR",  # 한글 제목/줄거리 가져오려면 ko-KR, 영어면 en-US 로 변경
+            "page": 1,
+            "include_adult": False
+        }
+
+        try:
+            resp = requests.get(search_url, params=params, timeout=5)
+            resp.raise_for_status()
+        except Exception as e:
+            print(f"[Error] TMDb 검색 실패: {e}")
+            return []
+
+        data = resp.json()
+        movies = data.get("results", [])
+
+        #검색된 각 영화마다 상세 정보 조회
+        for movie in movies:
+            movie_id = movie.get("id")
+            title    = movie.get("title") or movie.get("original_title")
+            overview = movie.get("overview")  # 이미 search 결과에 overview가 있지만, 상세 조회 시 업데이트될 수도 있음
+
+            if not movie_id or not title:
+                continue
+
+            #상세 정보 + credits 조회: /movie/{movie_id}?api_key=...&language=ko-KR&append_to_response=credits
+            detail_url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+            detail_params = {
+                "api_key": api_key,
+                "language": "ko-KR",
+                "append_to_response": "credits"
+            }
+
+            try:
+                detail_resp = requests.get(detail_url, params=detail_params, timeout=5)
+                detail_resp.raise_for_status()
+            except Exception as e:
+                print(f"[Warning] 영화 상세 정보 조회 실패: ID={movie_id} → {e}")
+                # search 결과의 overview라도 남기고, 감독을 "정보 없음"으로 둠
+                director = "감독 정보 없음"
+                summary  = overview or ""
+                results.append((title, director, summary))
+                continue
+
+            detail = detail_resp.json()
+            # 줄거리 (overview) 갱신
+            summary = detail.get("overview") or ""
+
+            #감독(director) 찾기: credits -> crew 중 job="Director"
+            credits = detail.get("credits", {})
+            crew_list = credits.get("crew", [])
+            director: Optional[str] = None
+            for member in crew_list:
+                if member.get("job") == "Director":
+                    director = member.get("name")
+                    break
+            if director is None:
+                director = "감독 정보 없음"
+
+            #(제목, 감독, 줄거리) 튜플로 결과에 추가
+            results.append((title, director, summary))
+
+        return results
+    
+
+
 
 #db 조회 테스트용 코드
-#db = movie_db()
-#db.recom_movie([("불안", 0.7), ("행복", 0.4)])
-#rerom = db.recommend_movies_by_emotion('sad')
-#print(rerom)
+db = movie_db()
+text = 'love'
+matches = db.search_and_get_movie_summaries(text)
+
+if not matches:
+    print("검색 결과가 없거나 줄거리가 제공되지 않는 영화입니다.")
+else:
+    print(f"\n'{text}'을(를) 포함한 영화 중 줄거리 있는 결과 {len(matches)}개:")
+    for idx, (title, director, summary) in enumerate(matches, start=1):
+        print(f"\n[{idx}] 제목: {title}\n감독: {director}\n줄거리:\n{summary}\n{'-'*40}")
+
+
+
+class music_db:
+    """
+    Last.fm API를 사용한 음악 추천 시스템 클래스
+    감정 태그를 기반으로 음악을 추천
+    """
+
+    # Last.fm API 관련 상수
+    API_KEY    = '99d0ccd0deee6c19efcceb20c52b1a66'
+    USER_AGENT = 'lime/1.0' # lime
+    BASE_URL   = 'https://ws.audioscrobbler.com/2.0/'
+
+    headers = {
+        'user-agent': USER_AGENT
+    }
+
+    #임시 data // emo_list는 나중에 감정 처리된 값으로 받아올 예정
+    emotion = 'happy'
+    emo_list = ['happy','sad']
+
+    #emo_list = logic.user_emo_logic()
+
+    #단일 page 조회
+    def lookup_page(self, emotion):
+        """
+        특정 감정에 대한 단일 페이지의 음악 트랙을 조회
+        
+        Args:
+            emotion: 검색할 감정 태그
+            
+        Returns:
+            list: 해당 감정과 관련된 트랙 목록
+        """
+        tracks  = []
+        params = {
+            'method'  : 'tag.getTopTracks',
+            'tag'     : emotion,
+            'api_key' : self.API_KEY,
+            'format'  : 'json',
+            'limit'   : 50,
+        }
+        req = requests.get(self.BASE_URL, headers=self.headers, params=params)
+        data = req.json()
+        curr = data.get('tracks', {}).get('track', [])
+
+        tracks.extend(curr)
+
+        return tracks
+
+    #emotion을 받아서 db 전체 순회
+    #return 값은 list 형식
+    # 매우 오래 걸림을 확인 -> 조정 필요
+    def db_lookup_all(self,emotion):
+        """
+        특정 감정에 대한 모든 페이지의 음악 트랙을 조회
+        
+        Args:
+            emotion: 검색할 감정 태그
+            
+        Returns:
+            list: 해당 감정과 관련된 모든 트랙 목록
+        """
+        tracks = []
+        page = 1
+
+        #page 단위로 해당하는 emotion값에 따른 db 전체 조회
+        while True:
+            params = {
+            'method'  : 'tag.getTopTracks',
+            'tag'     : emotion,
+            'api_key' : self.API_KEY,
+            'format'  : 'json',
+            'limit'   : 50,
+            'page'    : page
+            }
+            
+            req = requests.get(self.BASE_URL, headers=self.headers, params=params)
+            data = req.json()
+
+            curr = data.get('tracks', {}).get('track', [])
+
+            if not curr:
+                break
+
+            tracks.extend(curr)
+            page += 1
+
+        return tracks
+
+    #boundary를 이용해 처리된 감정들을 이용해서 각 감정들로 db 조회
+    def lookup_for_all_emo(self,emo_list):
+        """
+        여러 감정에 대한 음악 트랙을 조회
+        
+        Args:
+            emo_list: 검색할 감정 태그 리스트
+            
+        Returns:
+            list: 각 감정과 관련된 트랙 목록 (감정 태그 포함)
+        """
+        curr = []
+        for emo in emo_list:
+            track = self.lookup_page(emo)
+            for t in track:
+                t['emotion'] = emo
+            curr.extend(track)
+        return curr
+
+    #tracks = db_lookup_all(emotion)
+    #tracks = lookup_for_all_emo(emo_list)
+    #for t in tracks:
+    #    print(f"[{t['emotion']}] {t['name']} — {t['artist']['name']}")
 
 
 
