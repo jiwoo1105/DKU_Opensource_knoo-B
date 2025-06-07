@@ -40,7 +40,7 @@ class MainView(QMainWindow):
         # 메인 윈도우 설정
         self.setCentralWidget(UI_set)
         self.setWindowTitle("사용자 감정 입력")  # 윈도우 제목
-        self.resize(510, 350)  # 윈도우 크기
+        self.resize(800, 500)  # 윈도우 크기
         self.show()  # 윈도우 표시
 
     def do_analy(self):

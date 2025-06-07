@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>518</width>
-    <height>353</height>
+    <width>1000</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -39,7 +39,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
+          <width>1800</width>
           <height>100</height>
          </size>
         </property>
@@ -49,11 +49,9 @@ color: #2E2E2E;
 
 border-style: solid;
 border-width: 2px;
-border-color: #A3C1DA;
-border-radius: 6px;
-background-color: #F0F8FF;
-
-
+border-color: #E6E6FA;
+border-radius: 20px;
+background-color:#FEF5D4;
 
 
 </string>
@@ -88,14 +86,14 @@ knoo-B</string>
           </property>
           <property name="minimumSize">
            <size>
-            <width>200</width>
-            <height>120</height>
+            <width>300</width>
+            <height>200</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
-            <height>100</height>
+            <width>300</width>
+            <height>200</height>
            </size>
           </property>
           <property name="font">
@@ -113,10 +111,10 @@ color: #333333;
 
 border-style: solid;
 border-width: 2px;
-border-color: #F5A9B8; 
-border-radius: 6px;
+border-color: #FFD6AA; 
+border-radius: 20px;
+background-color: #FFD6AA; 
 
-background-color: #FFE6F0; /* 연한 파스텔 핑크 */
 </string>
           </property>
           <property name="text">
@@ -134,14 +132,14 @@ background-color: #FFE6F0; /* 연한 파스텔 핑크 */
           </property>
           <property name="minimumSize">
            <size>
-            <width>200</width>
-            <height>120</height>
+            <width>300</width>
+            <height>200</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
-            <height>100</height>
+            <width>300</width>
+            <height>200</height>
            </size>
           </property>
           <property name="font">
@@ -161,9 +159,9 @@ color: #333333;
 
 border-style: solid;
 border-width: 2px;
-border-color: #66CDAA;
-border-radius: 6px;
-background-color: #E0FFF4;
+border-color: #EFBAD6;
+border-radius: 20px;
+background-color: #EFBAD6;
 
 </string>
           </property>

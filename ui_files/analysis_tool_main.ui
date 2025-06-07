@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>812</width>
-    <height>522</height>
+    <width>900</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -49,10 +49,10 @@ color: #333333;
 
 border-style: solid;
 border-width: 2px;
-border-color: #F5A9B8; 
+border-color: #FFD6AA; 
+border-radius: 20px;
 border-radius: 6px;
-
-background-color: #FFE6F0;</string>
+background-color: #FFD6AA;</string>
         </property>
         <property name="html">
          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -115,17 +115,17 @@ p, li { white-space: pre-wrap; }
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
-    background-color: #F5A9B8;
+    background-color: #FFD6AA;
     color: white;
     border: none;
     border-radius: 6px;
     padding: 10px;
 }
 QPushButton:hover {
-    background-color: #F7819F;
+    background-color: #FFD6AA;
 }
 QPushButton:pressed {
-    background-color: #FA5882;
+    background-color:rgb(242, 137, 165);
 }</string>
             </property>
             <property name="text">

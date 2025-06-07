@@ -287,7 +287,7 @@ class MainView(QMainWindow):
         self.show_result()
         self.setCentralWidget(UI_set)
         self.setWindowTitle("추천 결과")
-        self.resize(800, 600)  # 창 크기 키움
+        self.resize(1000, 600)  # 창 크기 키움
         self.show()
 
     def show_result(self):

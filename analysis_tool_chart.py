@@ -8,10 +8,15 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 import matplotlib as mpl
+import matplotlib.font_manager as fm
 import DB_request
 
 # 한글 폰트 설정
-mpl.rcParams['font.family'] = 'AppleGothic'
+
+# font_path = "C:\Users\LG\AppData\Local\Microsoft\Windows\Fonts\AppleSDGothicNeoM.ttf" # 글꼴 경로 설정
+# font_name = fm.FontProperties(fname=font_path).get_name() # 폰트 이름 가져오기
+# mpl.rc('font', family=font_name)
+mpl.rcParams['font.family'] = 'malgun gothic'
 mpl.rcParams['axes.unicode_minus'] = False
 
 class MainView(QMainWindow):
@@ -91,18 +96,18 @@ class MainView(QMainWindow):
                                         wedgeprops=dict(width=0.5))  # 도넛 형태로 만들기
         
         # 차트 제목 설정
-        ax.set_title('감정 분석 결과', pad=20, fontsize=14, fontweight='bold', fontfamily='AppleGothic')
+        ax.set_title('감정 분석 결과', pad=20, fontsize=14, fontweight='bold', fontfamily='malgun gothic')
         
         # 범례 설정
         ax.legend(wedges, emotions,
                 title="감정",
                 loc="center left",
                 bbox_to_anchor=(1, 0, 0.5, 1),
-                prop={'family': 'AppleGothic'})
+                prop={'family': 'malgun gothic'})
         
         # 텍스트 스타일 설정
-        plt.setp(autotexts, size=8, weight="bold", fontfamily='AppleGothic')
-        plt.setp(texts, size=10, fontfamily='AppleGothic')
+        plt.setp(autotexts, size=8, weight="bold", fontfamily='malgun gothic')
+        plt.setp(texts, size=10, fontfamily='malgun gothic')
         
         # 레이아웃 조정
         self.figure.tight_layout()

@@ -29,7 +29,7 @@ class MainView(QMainWindow):
         # 메인 타이틀 제목
         self.setWindowTitle("추천 및 검색 프로그램")
         # 창의 사이즈 조정
-        self.resize(500, 270)
+        self.resize(700, 400)
 
         self.show()
 

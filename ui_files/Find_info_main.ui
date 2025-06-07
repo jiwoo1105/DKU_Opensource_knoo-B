@@ -49,9 +49,9 @@ color: #2E2E2E;
 
 border-style: solid;
 border-width: 2px;
-border-color: #66CDAA;
+border-color: #EFBAD6;
 border-radius: 6px;
-background-color: #E0FFF4;
+background-color: #EFBAD6;
 </string>
         </property>
         <property name="lineWrapColumnOrWidth">
