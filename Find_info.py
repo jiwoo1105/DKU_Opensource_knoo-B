@@ -3,6 +3,7 @@ import os
 from PySide2 import QtUiTools, QtGui
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog, QWidget, QLabel, QVBoxLayout
 import DB_request
+import os
 
 class MainView(QMainWindow):
 
@@ -19,7 +20,7 @@ class MainView(QMainWindow):
 
         UI_set = QtUiTools.QUiLoader().load(resource_path("ui_files/Find_info_main.ui")) # ui파일 오픈
 
-        UI_set.Find_info.clicked.connect(self.show_result) #chart 분석창으로의 이벤트 연결
+        UI_set.Find_info.clicked.connect(self.show_result) #검색 결과 보여주기
 
         self.setCentralWidget(UI_set)
         self.setWindowTitle("정보 검색")
@@ -28,7 +29,6 @@ class MainView(QMainWindow):
 
 
     def show_result(self):
-        book_result = []
         movie_result = []
         #text에 포함되어 있는 문자나 단어가 포함되어 있는 모든 결과를 추천함
         Text = UI_set.user_input.text()
@@ -39,12 +39,41 @@ class MainView(QMainWindow):
             book_db = DB_request.book_db()
             #책 줄거리 조회
             #책의 title과 줄거리를 합쳐서 저장
-            UI_set.show_result.setPlainText(book_result)
+            book_result = book_db.search_and_get_book_summaries(Text)
+            if not book_result:
+                UI_set.show_result.setPlainText("검색 결과가 없거나 줄거리가 제공되지 않는 책입니다.")
+            else:
+            #헤더 문자열 준비
+                result_text = f"'{text}'을(를) 포함한 책 중 줄거리가 있는 결과 {len(book_result)}개:\n\n"
+    
+            #각 항목을 순회하며 출력용 문자열 이어 붙이기
+            for idx, (title, summary) in enumerate(book_result, start=1):
+                result_text += (
+                    f"[{idx}] 제목: {title}\n"
+                    f"줄거리:\n{summary}\n"
+                    + "-"*40 + "\n"
+                )
+            
+            #완성된 문자열을 한번에 위젯에 보여주기
+            UI_set.show_result.setPlainText(result_text)
         if mymovie : 
-            self.movie_db = DB_request.movie_db()
+            movie_db = DB_request.movie_db()
             #영화 줄거리 조회
             #영화의 title과 줄거리를 합쳐서 저장
-            UI_set.show_result.setPlainText(movie_result)
+            result = movie_db.search_and_get_movie_summaries(Text)
+            if not book_result:
+                UI_set.show_result.setPlainText("검색 결과가 없거나 줄거리가 제공되지 않는 책입니다.")
+            else:
+            #헤더 문자열 준비
+                result_text = f"'{text}'을(를) 포함한 책 중 줄거리가 있는 결과 {len(book_result)}개:\n\n"
+    
+            #각 항목을 순회하며 출력용 문자열 이어 붙이기
+            for idx, (title, summary) in enumerate(book_result, start=1):
+                result_text += (
+                    f"[{idx}] 제목: {title}\n"
+                    f"줄거리:\n{summary}\n"
+                    + "-"*40 + "\n"
+                )
         if not mymovie and not mybook:
             text = "책 or 영화를 선택해주세요"
             UI_set.show_result.setPlainText(text)
