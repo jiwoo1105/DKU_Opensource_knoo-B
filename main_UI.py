@@ -7,7 +7,7 @@ from PySide2 import QtUiTools, QtGui
 from PySide2.QtWidgets import QApplication, QMainWindow
 
 import analysis_tool_main
-#import Find_info_main
+import Find_info
 
 
 class MainView(QMainWindow):
@@ -23,6 +23,7 @@ class MainView(QMainWindow):
 
         #2개의 버튼을 각각의 창으로 연결 -> 1) 감정 분석 창 , 2) 정보 검색 창
         UI_set.Analysis_tool.clicked.connect(self.open_analysis)
+        UI_set.Find_info.clicked.connect(self.open_Find)
 
         self.setCentralWidget(UI_set)
         # 메인 타이틀 제목
@@ -35,10 +36,8 @@ class MainView(QMainWindow):
     def open_analysis(self):
         self.S = analysis_tool_main.MainView()
 
-
-    #검색기 추후 구현 예정
-    #def open_Find(self):
-    #   self.S = Find_info_main.MainView()
+    def open_Find(self):
+       self.S = Find_info.MainView()
 
 
 # 파일 경로
