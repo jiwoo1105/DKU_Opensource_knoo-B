@@ -29,12 +29,12 @@ class MainView(QMainWindow):
 
 
     def show_result(self):
-        movie_result = []
         #text에 포함되어 있는 문자나 단어가 포함되어 있는 모든 결과를 추천함
         Text = UI_set.user_input.text()
         #radio 버튼이 체크되었는지 true/false로 반환
         mymovie = UI_set.Find_movie.ischecked()
         mybook = UI_set.Find_book.ischecked()
+
         if mybook:
             book_db = DB_request.book_db()
             #책 줄거리 조회
@@ -56,11 +56,12 @@ class MainView(QMainWindow):
             
             #완성된 문자열을 한번에 위젯에 보여주기
             UI_set.show_result.setPlainText(result_text)
+
         if mymovie : 
             movie_db = DB_request.movie_db()
             #영화 줄거리 조회
             #영화의 title과 줄거리를 합쳐서 저장
-            result = movie_db.search_and_get_movie_summaries(Text)
+            book_result = movie_db.search_and_get_movie_summaries(Text)
             if not book_result:
                 UI_set.show_result.setPlainText("검색 결과가 없거나 줄거리가 제공되지 않는 책입니다.")
             else:
@@ -74,6 +75,8 @@ class MainView(QMainWindow):
                     f"줄거리:\n{summary}\n"
                     + "-"*40 + "\n"
                 )
+            #완성된 문자열을 한번에 위젯에 보여주기
+            UI_set.show_result.setPlainText(result_text)
         if not mymovie and not mybook:
             text = "책 or 영화를 선택해주세요"
             UI_set.show_result.setPlainText(text)
