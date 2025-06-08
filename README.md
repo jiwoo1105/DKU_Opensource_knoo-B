@@ -1,20 +1,49 @@
-<div align="center">
-<h2> 📚 KNOO-B 🎬 </h2>
-포텐(14조) : 기분에 따른 영화/책 추천 서비스
-</div>
-<br>
+# 📚 KNOO-B 📺 
 
-## Git Commit
-<img width="967" alt="스크린샷 2024-04-08 15 28 25" src="https://github.com/GraduationDku/tastyHub/assets/112964257/ce4f22cd-858b-4695-8fe2-4048621b4ee3">
-<img width="1630" alt="스크린샷 2024-04-08 15 28 39" src="https://github.com/GraduationDku/tastyHub/assets/112964257/9a536ee7-3b89-4be1-b77e-d098ffd8be60">
+프로젝트 14조 : 기분에 따른 영화/책 추천 서비스
 
+## 프로젝트 소개
+감정 분석을 통한 도서/영화 추천 시스템입니다. 사용자의 현재 감정 상태를 분석하여 적절한 도서와 영화를 추천해주는 서비스를 제공합니다.
 
-## 🗓 회의록 (Meeting Notes)
+## 주요 기능
+1. 사용자 감정 분석
+2. 도서/영화 메타데이터 기반 추천
+3. 통합 검색 시스템 (도서, 영화, 제목 검색)
+4. 시각화된 분석 결과 제공
 
-> 프로젝트 진행 중 작성된 정기 회의록입니다.
+## 기술 스택
+- Python 3.9
+- PySide2
+- Matplotlib
+- JSON
 
-| 날짜         | 내용 요약                              | 링크 |
-|--------------|------------------------------------------|------|
+## 회의록 (Meeting Notes)
+> 프로젝트 진행 중 작성된 회의 회의록입니다.
+
+| 날짜 | 내용 요약 | 링크 |
+|------------------|-----------------------------------|--------|
 | 2025-05-11 | 프로젝트 초기 계획 수립, 역할 분담 논의 | [보기](./meeting-notes/2025-05-11.md) |
 | 2025-05-18 | GoEmotions 분석 API 연동 및 DB 설계 논의 | [보기](./meeting-notes/2025-05-18.md) |
-| 2025-05-25 | 반대 감정 추출 로직 및 UI 구조 확정     | [보기](./meeting-notes/2025-05-25.md) |
+| 2025-05-25 | 반대 감정 추출 로직 및 UI 구조 확정 | [보기](./meeting-notes/2025-05-25.md) |
+| 2025-05-31 | 메타데이터 구조화 및 매칭 시스템 구현 | [보기](./meeting-notes/2025-05-31.md) |
+| 2025-06-01 | UI 개선 및 검색 기능 구현, PPT 준비 | [보기](./meeting-notes/2025-06-01.md) |
+
+## 실행 방법
+1. Python 3.9 설치
+2. 필요한 패키지 설치:
+```bash
+pip install -r requirements.txt
+```
+3. 프로그램 실행:
+```bash
+python main_UI.py
+```
+
+## 팀원
+- HunJB
+- jiwoo1105
+- jeewonkim4206
+
+## Git Commit
+<img width="967" alt="스크린샷 2024-04-08 15 28 23" src="https://github.com/GraduationDku/tastyhub/assets/112964257/ce4f22cd-858b-4695-8fe2-404862b4ee3">
+<img width="1630" alt="스크린샷 2024-04-08 15 28 39" src="https://github.com/GraduationDku/tastyhub/assets/112964257/9a536ee7-3b89-4be1-b77e-d098ffd8be60">
