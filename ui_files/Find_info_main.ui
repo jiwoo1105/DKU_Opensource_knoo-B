@@ -6,103 +6,260 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>328</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>6000</width>
-    <height>6000</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>KNOO-B: 정보 검색 📚</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #F0F8FF;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
+    <property name="spacing">
+     <number>20</number>
+    </property>
+    <property name="leftMargin">
+     <number>40</number>
+    </property>
+    <property name="topMargin">
+     <number>30</number>
+    </property>
+    <property name="rightMargin">
+     <number>40</number>
+    </property>
+    <property name="bottomMargin">
+     <number>30</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="title_label">
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 18pt;
+    font-weight: bold;
+    color: #4A6F8C;
+    background-color: #E6F3FF;
+    border: 2px solid #B8D8FF;
+    border-radius: 15px;
+    padding: 15px;
+}</string>
+      </property>
+      <property name="text">
+       <string>✨ 도서 &amp; 영화 정보 검색 ✨</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="subtitle_label">
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 11pt;
+    color: #4A6F8C;
+    padding: 5px;
+}</string>
+      </property>
+      <property name="text">
+       <string>검색을 원하는 책 또는 영화의 제목을 입력해 주세요 💫</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="user_input">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 11pt;
+    color: #4A6F8C;
+    background-color: #FFFFFF;
+    border: 2px solid #B8D8FF;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+QLineEdit:focus {
+    border: 2px solid #9CC3FF;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>제목을 입력해주세요...</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="radio_layout">
+      <property name="spacing">
+       <number>20</number>
+      </property>
       <item>
-       <widget class="QTextBrowser" name="textBrowser">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-        <property name="minimumSize">
+        <property name="sizeHint" stdset="0">
          <size>
-          <width>100</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>50</height>
-         </size>
-        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="Find_book">
         <property name="styleSheet">
-         <string notr="true">font: 57 9pt &quot;G마켓 산스 TTF Medium&quot;;
-color: #2E2E2E;
-
-border-style: solid;
-border-width: 2px;
-border-color: #EFBAD6;
-border-radius: 6px;
-background-color: #EFBAD6;
-</string>
+         <string notr="true">QRadioButton {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 11pt;
+    color: #4A6F8C;
+    padding: 5px;
+}
+QRadioButton::indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 7px;
+}
+QRadioButton::indicator:checked {
+    background-color: #9CC3FF;
+    border: 2px solid #7CAFFF;
+    border-radius: 7px;
+}
+QRadioButton::indicator:unchecked {
+    background-color: #FFFFFF;
+    border: 2px solid #B8D8FF;
+    border-radius: 7px;
+}</string>
         </property>
-        <property name="lineWrapColumnOrWidth">
-         <number>0</number>
+        <property name="text">
+         <string>📚 책 검색</string>
         </property>
-        <property name="html">
-         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'G마켓 산스 TTF Medium'; font-size:9pt; font-weight:56; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:13pt; font-weight:400;&quot;&gt;책 및 영화 정보 검색기&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>G마켓 산스 TTF Medium</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>검색을 원하는 책 또는 영화의 제목을 입력해 주세요.</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>200</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QRadioButton" name="Find_movie">
+        <property name="styleSheet">
+         <string notr="true">QRadioButton {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 11pt;
+    color: #4A6F8C;
+    padding: 5px;
+}
+QRadioButton::indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 7px;
+}
+QRadioButton::indicator:checked {
+    background-color: #9CC3FF;
+    border: 2px solid #7CAFFF;
+    border-radius: 7px;
+}
+QRadioButton::indicator:unchecked {
+    background-color: #FFFFFF;
+    border: 2px solid #B8D8FF;
+    border-radius: 7px;
+}</string>
+        </property>
+        <property name="text">
+         <string>🎬 영화 검색</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
+    <item>
+     <widget class="QPushButton" name="Find_info">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #4A6F8C;
+    background-color: #E6F3FF;
+    border: 2px solid #B8D8FF;
+    border-radius: 15px;
+    padding: 5px;
+}
+QPushButton:hover {
+    background-color: #B8D8FF;
+    border: 2px solid #9CC3FF;
+}
+QPushButton:pressed {
+    background-color: #9CC3FF;
+    border: 2px solid #7CAFFF;
+}</string>
+      </property>
+      <property name="text">
+       <string>✨ 검색하기</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPlainTextEdit" name="show_result">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>300</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPlainTextEdit {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 11pt;
+    color: #4A6F8C;
+    background-color: #FFFFFF;
+    border: 2px solid #B8D8FF;
+    border-radius: 15px;
+    padding: 10px;
+}</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string>검색 결과가 여기에 표시됩니다... ✨</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

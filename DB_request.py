@@ -330,17 +330,7 @@ class movie_db:
         return results
 
 
-#db 조회 테스트용 코드
-db = movie_db()
-text = 'love'
-matches = db.search_and_get_movie_summaries(text)
 
-if not matches:
-    print("검색 결과가 없거나 줄거리가 제공되지 않는 영화입니다.")
-else:
-    print(f"\n'{text}'을(를) 포함한 영화 중 줄거리 있는 결과 {len(matches)}개:")
-    for idx, (title, director, summary) in enumerate(matches, start=1):
-        print(f"\n[{idx}] 제목: {title}\n감독: {director}\n줄거리:\n{summary}\n{'-'*40}")
 
 
 

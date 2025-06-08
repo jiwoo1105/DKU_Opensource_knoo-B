@@ -42,12 +42,12 @@ class MainView(QMainWindow):
         title_label = QLabel(title)
         title_label.setStyleSheet("""
             QLabel {
-                color: #333333;
+                color: #FF8FA3;
                 font-size: 14px;
                 font-weight: bold;
-                padding: 5px;
-                background-color: #f5f5f5;
-                border-radius: 3px;
+                padding: 8px;
+                background-color: #FFF0F5;
+                border-radius: 10px;
             }
         """)
         layout.addWidget(title_label)
@@ -57,12 +57,13 @@ class MainView(QMainWindow):
         emotion_text.setMaximumHeight(200)
         emotion_text.setStyleSheet("""
             QTextBrowser {
-                border: 1px solid #e0e0e0;
-                border-radius: 3px;
-                background-color: #ffffff;
-                padding: 10px;
+                border: 2px solid #FFE4E1;
+                border-radius: 10px;
+                background-color: #FFFFFF;
+                padding: 15px;
                 font-size: 12px;
-                line-height: 1.4;
+                line-height: 1.6;
+                color: #FF8FA3;
             }
         """)
         
@@ -96,9 +97,11 @@ class MainView(QMainWindow):
         title_container = QWidget()
         title_container.setStyleSheet("""
             QWidget {
-                background-color: #f8f9fa;
-                border-radius: 5px;
-                padding: 5px;
+                background-color: #FFFFFF;
+                border: 2px solid #FFE4E1;
+                border-radius: 15px;
+                padding: 15px;
+                margin: 5px;
             }
         """)
         title_layout = QVBoxLayout(title_container)
@@ -108,7 +111,7 @@ class MainView(QMainWindow):
         title_label.setWordWrap(True)
         title_label.setStyleSheet("""
             QLabel {
-                color: #333333;
+                color: #FF8FA3;
                 font-size: 16px;
                 font-weight: bold;
                 padding: 5px;
@@ -120,9 +123,11 @@ class MainView(QMainWindow):
         similarity_label = QLabel(f"감정 유사도: {similarity:.3f}")
         similarity_label.setStyleSheet("""
             QLabel {
-                color: #666666;
+                color: #FF8FA3;
                 font-size: 12px;
                 padding: 2px 5px;
+                background-color: #FFF0F5;
+                border-radius: 10px;
             }
         """)
         title_layout.addWidget(similarity_label)
@@ -142,7 +147,10 @@ class MainView(QMainWindow):
         # 구분선 추가
         line = QFrame()
         line.setFrameShape(QFrame.VLine)
-        line.setStyleSheet("background-color: #e0e0e0;")
+        line.setStyleSheet("""
+            background-color: #FFE4E1;
+            margin: 0px 10px;
+        """)
         emotions_layout.addWidget(line)
         
         # 사용자의 감정 분포
@@ -158,18 +166,20 @@ class MainView(QMainWindow):
         emotion_btn.setMaximumWidth(200)
         emotion_btn.setStyleSheet("""
             QPushButton {
-                background-color: #4a90e2;
-                color: white;
+                background-color: #FFE4E1;
+                color: #FF8FA3;
                 border: none;
-                padding: 8px 15px;
-                border-radius: 3px;
+                padding: 10px 20px;
+                border-radius: 15px;
                 font-weight: bold;
+                font-size: 13px;
             }
             QPushButton:hover {
-                background-color: #357abd;
+                background-color: #FFD0CC;
             }
             QPushButton:checked {
-                background-color: #2c3e50;
+                background-color: #FF8FA3;
+                color: white;
             }
         """)
         main_layout.addWidget(emotion_btn)
@@ -181,9 +191,8 @@ class MainView(QMainWindow):
         bottom_line = QFrame()
         bottom_line.setFrameShape(QFrame.HLine)
         bottom_line.setStyleSheet("""
-            background-color: #e0e0e0;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            background-color: #FFE4E1;
+            margin: 15px 0px;
         """)
         main_layout.addWidget(bottom_line)
         
@@ -204,24 +213,28 @@ class MainView(QMainWindow):
         self.tab_widget.setStyleSheet("""
             QTabWidget::pane {
                 border: none;
-                background: white;
+                background: #FFF5F7;
             }
             QTabWidget::tab-bar {
                 alignment: center;
             }
             QTabBar::tab {
-                background: #f0f0f0;
-                color: #333333;
-                padding: 8px 20px;
-                border: none;
-                margin-right: 2px;
+                background: #FFFFFF;
+                color: #FF8FA3;
+                padding: 10px 25px;
+                border: 2px solid #FFE4E1;
+                margin-right: 4px;
+                border-radius: 15px;
+                font-weight: bold;
             }
             QTabBar::tab:selected {
-                background: #4a90e2;
-                color: white;
+                background: #FFE4E1;
+                color: #FF8FA3;
+                border: 2px solid #FFD0CC;
             }
             QTabBar::tab:hover {
-                background: #7db0e8;
+                background: #FFF0F5;
+                border: 2px solid #FFD0CC;
             }
         """)
         
@@ -257,18 +270,18 @@ class MainView(QMainWindow):
             scroll.setStyleSheet("""
                 QScrollArea {
                     border: none;
-                    background: white;
+                    background: #FFF5F7;
                 }
                 QScrollBar:vertical {
                     border: none;
-                    background: #f0f0f0;
-                    width: 10px;
+                    background: #FFF0F5;
+                    width: 12px;
                     margin: 0px;
                 }
                 QScrollBar::handle:vertical {
-                    background: #c1c1c1;
+                    background: #FFE4E1;
                     min-height: 20px;
-                    border-radius: 5px;
+                    border-radius: 6px;
                 }
                 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
                     height: 0px;

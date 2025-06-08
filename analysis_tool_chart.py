@@ -27,7 +27,7 @@ class MainView(QMainWindow):
         self.data_after_logic_movie = None
         
         # 차트 색상 설정
-        self.colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99', '#FF99CC', '#99CCFF', '#FFB366']
+        self.colors = ['#FF8FA3', '#FFB3C1', '#FFC2D1', '#FFD1DC', '#FFE0E6', '#FFECF0', '#FFF0F5']
         self.setupUI()
         
         # 초기화 후 바로 결과 표시
@@ -40,7 +40,7 @@ class MainView(QMainWindow):
         UI_set.goto_result.clicked.connect(self.prepare_recommendations)  # 버튼 클릭 시 추천 준비 및 결과 창 열기
 
         # 차트를 표시할 Figure 생성
-        self.figure = plt.Figure(facecolor='#F0F0F0')
+        self.figure = plt.Figure(facecolor='#FFFFFF')
         self.canvas = FigureCanvas(self.figure)
         
         # 기존 차트 위젯을 찾아서 레이아웃에 matplotlib 캔버스 추가
@@ -96,18 +96,18 @@ class MainView(QMainWindow):
                                         wedgeprops=dict(width=0.5))  # 도넛 형태로 만들기
         
         # 차트 제목 설정
-        ax.set_title('감정 분석 결과', pad=20, fontsize=14, fontweight='bold', fontfamily='malgun gothic')
+        ax.set_title('감정 분석 결과', pad=20, fontsize=16, fontweight='bold', fontfamily='malgun gothic', color='#FF8FA3')
         
         # 범례 설정
         ax.legend(wedges, emotions,
                 title="감정",
                 loc="center left",
                 bbox_to_anchor=(1, 0, 0.5, 1),
-                prop={'family': 'malgun gothic'})
+                prop={'family': 'malgun gothic', 'color': '#FF8FA3', 'size': 10})
         
         # 텍스트 스타일 설정
-        plt.setp(autotexts, size=8, weight="bold", fontfamily='malgun gothic')
-        plt.setp(texts, size=10, fontfamily='malgun gothic')
+        plt.setp(autotexts, size=9, weight="bold", fontfamily='malgun gothic', color='#FF8FA3')
+        plt.setp(texts, size=11, fontfamily='malgun gothic', color='#FF8FA3')
         
         # 레이아웃 조정
         self.figure.tight_layout()

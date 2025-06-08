@@ -13,6 +13,29 @@
   <property name="windowTitle">
    <string>추천 결과</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #F0F8FF;
+}
+QWidget {
+    color: #4A6F8C;
+}
+QPushButton {
+    background-color: #B8D8FF;
+    color: #4A6F8C;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+QPushButton:hover {
+    background-color: #9CC3FF;
+}
+QPushButton:pressed {
+    background-color: #7CAFFF;
+    color: white;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>

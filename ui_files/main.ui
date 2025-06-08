@@ -6,186 +6,173 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>900</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>KNOO-B: 감정 기반 추천 시스템 🌈</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #FFF5F7;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_main">
+    <property name="spacing">
+     <number>20</number>
+    </property>
+    <property name="leftMargin">
+     <number>40</number>
+    </property>
+    <property name="topMargin">
+     <number>30</number>
+    </property>
+    <property name="rightMargin">
+     <number>40</number>
+    </property>
+    <property name="bottomMargin">
+     <number>30</number>
+    </property>
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <widget class="QLabel" name="Main_Title">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 24pt;
+    font-weight: bold;
+    color: #6B4E71;
+    background-color: #FFF0F5;
+    border: 2px solid #E6D0DE;
+    border-radius: 15px;
+    padding: 10px;
+}</string>
+      </property>
+      <property name="text">
+       <string>✨ KNOO-B ✨
+도서&amp;영화 감정 추천 시스템</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>30</number>
+      </property>
       <item>
-       <widget class="QLabel" name="Main_Title">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+       <widget class="QPushButton" name="Analysis_tool">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>1800</width>
-          <height>100</height>
+          <width>300</width>
+          <height>250</height>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">font: 57 15pt &quot;G마켓 산스 TTF Medium&quot;;
-color: #2E2E2E;
-
-border-style: solid;
-border-width: 2px;
-border-color: #E6E6FA;
-border-radius: 20px;
-background-color:#FEF5D4;
-
-
-</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <string notr="true">QPushButton {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 14pt;
+    font-weight: bold;
+    color: #5D4037;
+    background-color: #FFE4E1;
+    border: 2px solid #FFD0CC;
+    border-radius: 20px;
+    padding: 20px;
+}
+QPushButton:hover {
+    background-color: #FFD0CC;
+    border: 2px solid #FFBEB8;
+}
+QPushButton:pressed {
+    background-color: #FFB8B3;
+    border: 2px solid #FFA59E;
+}</string>
         </property>
         <property name="text">
-         <string>책 및 영화 추천 프로그램
-knoo-B</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+         <string>💝 감정 분석 및 추천
+──────────
+오늘의 감정을 분석하고
+맞춤 콘텐츠를 추천받아보세요!</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="check_btn">
-        <property name="spacing">
-         <number>1</number>
+       <widget class="QPushButton" name="Find_info">
+        <property name="minimumSize">
+         <size>
+          <width>300</width>
+          <height>250</height>
+         </size>
         </property>
-        <property name="topMargin">
-         <number>0</number>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    font-family: &quot;맑은 고딕&quot;;
+    font-size: 14pt;
+    font-weight: bold;
+    color: #4A5B7B;
+    background-color: #E6F3FF;
+    border: 2px solid #CCE4FF;
+    border-radius: 20px;
+    padding: 20px;
+}
+QPushButton:hover {
+    background-color: #CCE4FF;
+    border: 2px solid #B3D6FF;
+}
+QPushButton:pressed {
+    background-color: #B3D6FF;
+    border: 2px solid #99C7FF;
+}</string>
         </property>
-        <item>
-         <widget class="QPushButton" name="Analysis_tool">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>G마켓 산스 TTF Medium</family>
-            <pointsize>11</pointsize>
-            <weight>50</weight>
-            <italic>false</italic>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 11pt &quot;G마켓 산스 TTF Medium&quot;;
-color: #333333;
-
-border-style: solid;
-border-width: 2px;
-border-color: #FFD6AA; 
-border-radius: 20px;
-background-color: #FFD6AA; 
-
-</string>
-          </property>
-          <property name="text">
-           <string>감정 분석 및 추천</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="Find_info">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>200</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>200</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <family>G마켓 산스 TTF Medium</family>
-            <pointsize>11</pointsize>
-            <weight>7</weight>
-            <italic>false</italic>
-            <bold>false</bold>
-            <underline>false</underline>
-            <strikeout>false</strikeout>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 57 11pt &quot;G마켓 산스 TTF Medium&quot;;
-color: #333333;
-
-border-style: solid;
-border-width: 2px;
-border-color: #EFBAD6;
-border-radius: 20px;
-background-color: #EFBAD6;
-
-</string>
-          </property>
-          <property name="text">
-           <string>정보 검색</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+        <property name="text">
+         <string>📚 정보 검색
+──────────
+도서와 영화의 상세 정보를
+검색해보세요!</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
+    <item>
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
    </layout>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>518</width>
-     <height>25</height>
-    </rect>
-   </property>
   </widget>
  </widget>
  <resources/>
