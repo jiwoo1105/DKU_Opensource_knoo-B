@@ -11,11 +11,6 @@
 3. 통합 검색 시스템 (도서, 영화, 제목 검색)
 4. 시각화된 분석 결과 제공
 
-## 기술 스택
-- Python 3.9
-- PySide2
-- Matplotlib
-- JSON
 
 ## 회의록 (Meeting Notes)
 > 프로젝트 진행 중 작성된 회의 회의록입니다.
@@ -28,16 +23,7 @@
 | 2025-05-31 | 메타데이터 구조화 및 매칭 시스템 구현 | [보기](./meeting-notes/2025-05-31.md) |
 | 2025-06-01 | UI 개선 및 검색 기능 구현, PPT 준비 | [보기](./meeting-notes/2025-06-01.md) |
 
-## 실행 방법
-1. Python 3.9 설치
-2. 필요한 패키지 설치:
-```bash
-pip install -r requirements.txt
-```
-3. 프로그램 실행:
-```bash
-python main_UI.py
-```
+
 
 ## 팀원
 - HunJB
