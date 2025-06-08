@@ -167,7 +167,6 @@ else:
     for idx, (title, summary) in enumerate(matches, start=1):
         print(f"\n[{idx}] 제목: {title}\n줄거리:\n{summary}\n{'-'*40}")
 """
-#db.recom_book([("불안", 0.7), ("행복", 0.4)])
 
 
 
@@ -329,8 +328,6 @@ class movie_db:
             results.append((title, director, summary))
 
         return results
-    
-
 
 
 #db 조회 테스트용 코드
@@ -345,119 +342,6 @@ else:
     for idx, (title, director, summary) in enumerate(matches, start=1):
         print(f"\n[{idx}] 제목: {title}\n감독: {director}\n줄거리:\n{summary}\n{'-'*40}")
 
-
-
-class music_db:
-    """
-    Last.fm API를 사용한 음악 추천 시스템 클래스
-    감정 태그를 기반으로 음악을 추천
-    """
-
-    # Last.fm API 관련 상수
-    API_KEY    = '99d0ccd0deee6c19efcceb20c52b1a66'
-    USER_AGENT = 'lime/1.0' # lime
-    BASE_URL   = 'https://ws.audioscrobbler.com/2.0/'
-
-    headers = {
-        'user-agent': USER_AGENT
-    }
-
-    #임시 data // emo_list는 나중에 감정 처리된 값으로 받아올 예정
-    emotion = 'happy'
-    emo_list = ['happy','sad']
-
-    #emo_list = logic.user_emo_logic()
-
-    #단일 page 조회
-    def lookup_page(self, emotion):
-        """
-        특정 감정에 대한 단일 페이지의 음악 트랙을 조회
-        
-        Args:
-            emotion: 검색할 감정 태그
-            
-        Returns:
-            list: 해당 감정과 관련된 트랙 목록
-        """
-        tracks  = []
-        params = {
-            'method'  : 'tag.getTopTracks',
-            'tag'     : emotion,
-            'api_key' : self.API_KEY,
-            'format'  : 'json',
-            'limit'   : 50,
-        }
-        req = requests.get(self.BASE_URL, headers=self.headers, params=params)
-        data = req.json()
-        curr = data.get('tracks', {}).get('track', [])
-
-        tracks.extend(curr)
-
-        return tracks
-
-    #emotion을 받아서 db 전체 순회
-    #return 값은 list 형식
-    # 매우 오래 걸림을 확인 -> 조정 필요
-    def db_lookup_all(self,emotion):
-        """
-        특정 감정에 대한 모든 페이지의 음악 트랙을 조회
-        
-        Args:
-            emotion: 검색할 감정 태그
-            
-        Returns:
-            list: 해당 감정과 관련된 모든 트랙 목록
-        """
-        tracks = []
-        page = 1
-
-        #page 단위로 해당하는 emotion값에 따른 db 전체 조회
-        while True:
-            params = {
-            'method'  : 'tag.getTopTracks',
-            'tag'     : emotion,
-            'api_key' : self.API_KEY,
-            'format'  : 'json',
-            'limit'   : 50,
-            'page'    : page
-            }
-            
-            req = requests.get(self.BASE_URL, headers=self.headers, params=params)
-            data = req.json()
-
-            curr = data.get('tracks', {}).get('track', [])
-
-            if not curr:
-                break
-
-            tracks.extend(curr)
-            page += 1
-
-        return tracks
-
-    #boundary를 이용해 처리된 감정들을 이용해서 각 감정들로 db 조회
-    def lookup_for_all_emo(self,emo_list):
-        """
-        여러 감정에 대한 음악 트랙을 조회
-        
-        Args:
-            emo_list: 검색할 감정 태그 리스트
-            
-        Returns:
-            list: 각 감정과 관련된 트랙 목록 (감정 태그 포함)
-        """
-        curr = []
-        for emo in emo_list:
-            track = self.lookup_page(emo)
-            for t in track:
-                t['emotion'] = emo
-            curr.extend(track)
-        return curr
-
-    #tracks = db_lookup_all(emotion)
-    #tracks = lookup_for_all_emo(emo_list)
-    #for t in tracks:
-    #    print(f"[{t['emotion']}] {t['name']} — {t['artist']['name']}")
 
 
 
