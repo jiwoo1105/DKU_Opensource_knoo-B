@@ -51,3 +51,6 @@
 [![KNOO-B 구현 영상](https://img.youtube.com/vi/uIsLRql8ePQ/0.jpg)](https://youtu.be/uIsLRql8ePQ)
 
 *위 이미지를 클릭하시면 YouTube에서 영상을 시청하실 수 있습니다.*
+
+## 한계점
+- 사용된 감정 분석 API(nlp04/korean_sentiment_analysis_dataset3_best)는 구체적인 행동이나 문장이 포함되지 않은 경우 정확한 감정 분석이 어려울 수 있습니다.
