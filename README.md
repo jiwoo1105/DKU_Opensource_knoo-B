@@ -1,6 +1,6 @@
 # 📚 KNOO-B 📺 
 
-프로젝트 14조 : 기분에 따른 영화/책 추천 서비스
+포텐(14조) : 기분에 따른 영화/책 추천 서비스
 
 ## 프로젝트 소개
 감정 분석을 통한 도서/영화 추천 시스템입니다. 사용자의 현재 감정 상태를 분석하여 적절한 도서와 영화를 추천해주는 서비스를 제공합니다.
@@ -11,11 +11,6 @@
 3. 통합 검색 시스템 (도서, 영화, 제목 검색)
 4. 시각화된 분석 결과 제공
 
-## 기술 스택
-- Python 3.9
-- PySide2
-- Matplotlib
-- JSON
 
 ## 회의록 (Meeting Notes)
 > 프로젝트 진행 중 작성된 회의 회의록입니다.
@@ -28,16 +23,7 @@
 | 2025-05-31 | 메타데이터 구조화 및 매칭 시스템 구현 | [보기](./meeting-notes/2025-05-31.md) |
 | 2025-06-01 | UI 개선 및 검색 기능 구현, PPT 준비 | [보기](./meeting-notes/2025-06-01.md) |
 
-## 실행 방법
-1. Python 3.9 설치
-2. 필요한 패키지 설치:
-```bash
-pip install -r requirements.txt
-```
-3. 프로그램 실행:
-```bash
-python main_UI.py
-```
+
 
 ## 팀원
 ### jiwoo1105
@@ -58,3 +44,10 @@ python main_UI.py
 ## Git Commit
 <img width="967" alt="스크린샷 2024-04-08 15 28 23" src="https://github.com/GraduationDku/tastyhub/assets/112964257/ce4f22cd-858b-4695-8fe2-404862b4ee3">
 <img width="1630" alt="스크린샷 2024-04-08 15 28 39" src="https://github.com/GraduationDku/tastyhub/assets/112964257/9a536ee7-3b89-4be1-b77e-d098ffd8be60">
+
+## 구현 영상
+프로젝트 구현 영상을 확인하실 수 있습니다.
+
+[![KNOO-B 구현 영상](https://img.youtube.com/vi/uIsLRql8ePQ/0.jpg)](https://youtu.be/uIsLRql8ePQ)
+
+*위 이미지를 클릭하시면 YouTube에서 영상을 시청하실 수 있습니다.*
