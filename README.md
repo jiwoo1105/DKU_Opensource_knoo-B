@@ -40,9 +40,20 @@ python main_UI.py
 ```
 
 ## 팀원
-- HunJB
-- jiwoo1105
-- jeewonkim4206
+### jiwoo1105
+- 감정 분석 API 연동 및 감정 경계 로직 처리
+- 유클리드 거리 기반 메타데이터 매칭 시스템 개발
+- Matplotlib을 활용한 감정 분석 시각화 시스템 구현
+
+### jeewonkim4206
+- PySide2 기반 사용자 인터페이스 설계 및 개발
+- 직관적이고 사용자 친화적인 UI/UX 디자인
+- 프로젝트 발표 및 시연 자료 제작
+
+### HunJB
+- 도서/영화 메타데이터 구조화 및 관리 시스템 구축
+- Hugging Face 기반 도서/영화 검색 시스템 개발
+- 저자 및 줄거리 정보 자동 추출 및 연동 시스템 구현
 
 ## Git Commit
 <img width="967" alt="스크린샷 2024-04-08 15 28 23" src="https://github.com/GraduationDku/tastyhub/assets/112964257/ce4f22cd-858b-4695-8fe2-404862b4ee3">

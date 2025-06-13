@@ -6,7 +6,7 @@ from analysis import emotion_analysis  # 감정 분석 모듈
 from PySide2 import QtUiTools, QtGui  # Qt GUI 라이브러리
 from PySide2.QtWidgets import (QMainWindow, QApplication, QFileDialog, QWidget, 
                              QLabel, QVBoxLayout, QPushButton, QTextBrowser,
-                             QTabWidget, QScrollArea, QHBoxLayout, QFrame)
+                             QTabWidget, QScrollArea, QHBoxLayout, QFrame, QTabBar)
 from PySide2.QtCore import Qt
 
 
@@ -217,6 +217,7 @@ class MainView(QMainWindow):
             }
             QTabWidget::tab-bar {
                 alignment: center;
+                left: 20px;  /* 왼쪽 여백 추가 */
             }
             QTabBar::tab {
                 background: #FFFFFF;
@@ -226,6 +227,8 @@ class MainView(QMainWindow):
                 margin-right: 4px;
                 border-radius: 15px;
                 font-weight: bold;
+                min-width: 200px;  /* 탭 최소 너비 증가 */
+                max-width: 300px;  /* 탭 최대 너비 설정 */
             }
             QTabBar::tab:selected {
                 background: #FFE4E1;
@@ -237,6 +240,16 @@ class MainView(QMainWindow):
                 border: 2px solid #FFD0CC;
             }
         """)
+        
+        # 탭바의 위치를 상단으로 고정
+        self.tab_widget.setTabPosition(QTabWidget.North)
+        
+        # 탭바의 정렬을 왼쪽으로 설정
+        self.tab_widget.setTabBar(QTabBar())
+        self.tab_widget.tabBar().setExpanding(False)
+        
+        # 탭 위젯의 최소 높이 설정
+        self.tab_widget.setMinimumHeight(50)
         
         # 4개의 탭을 위한 스크롤 영역과 위젯 생성
         self.similar_book_scroll = QScrollArea()
