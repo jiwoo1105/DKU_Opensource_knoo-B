@@ -11,10 +11,9 @@
 
 <div style="display: flex; justify-content: space-around; margin-bottom: 20px; gap: 20px; flex-wrap: wrap;">
 
-  <!-- jiwoo1105 Section -->
+  <!-- 박지우(jiwoo1105) Section -->
   <div style="background-color: #f4f4f9; padding: 20px; border-radius: 12px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     <h3 style="color: #4CAF50;">jiwoo1105</h3>
-    <p style="margin-top: -10px; margin-bottom: 10px;"><strong>박지우</strong></p>
     <ul style="list-style-type: none; padding-left: 0;">
       <li>📊 감정 분석 API 연동 및 감정 경계 로직 처리</li>
       <li>📍 유클리드 거리 기반 메타데이터 매칭 시스템 개발</li>
@@ -22,10 +21,9 @@
     </ul>
   </div>
 
-  <!-- jeewonkim4206 Section -->
+  <!-- 김지원(jeewonkim4206) Section -->
   <div style="background-color: #f4f4f9; padding: 20px; border-radius: 12px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     <h3 style="color: #FF9800;">jeewonkim4206</h3>
-    <p style="margin-top: -10px; margin-bottom: 10px;"><strong>김지원</strong></p>
     <ul style="list-style-type: none; padding-left: 0;">
       <li>🖥 PySide2 기반 사용자 인터페이스 설계 및 개발</li>
       <li>🎨 직관적이고 사용자 친화적인 UI/UX 디자인</li>
@@ -33,10 +31,9 @@
     </ul>
   </div>
 
-  <!-- HunJB Section -->
+  <!-- 정병훈(HunJB) Section -->
   <div style="background-color: #f4f4f9; padding: 20px; border-radius: 12px; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     <h3 style="color: #2196F3;">HunJB</h3>
-    <p style="margin-top: -10px; margin-bottom: 10px;"><strong>정병훈</strong></p>
     <ul style="list-style-type: none; padding-left: 0;">
       <li>📚 도서/영화 메타데이터 구조화 및 관리 시스템 구축</li>
       <li>🔍 Hugging Face 기반 도서/영화 검색 시스템 개발</li>
